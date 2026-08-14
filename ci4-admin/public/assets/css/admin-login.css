@@ -1,0 +1,68 @@
+/* KFESTA 관리자 로그인 (인라인 금지 규정에 따라 분리) */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Pretendard Variable', Pretendard, -apple-system, sans-serif;
+  background: #111114;
+  color: #EDEDEF;
+  min-height: 100vh;
+}
+.login-wrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.login-card {
+  width: 100%;
+  max-width: 380px;
+  background: #1B1B20;
+  border: 1px solid #2A2A32;
+  border-radius: 14px;
+  padding: 36px 32px;
+}
+.login-card h1 {
+  font-size: 20px;
+  margin-bottom: 22px;
+  letter-spacing: -0.02em;
+}
+.login-card .err {
+  background: #3A1B1E;
+  color: #F2A5AC;
+  font-size: 13px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin-bottom: 14px;
+}
+.login-card label {
+  display: block;
+  font-size: 13px;
+  color: #9A9AA5;
+  margin-bottom: 14px;
+}
+.login-card input {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  padding: 11px 12px;
+  font-size: 15px;
+  color: #EDEDEF;
+  background: #111114;
+  border: 1px solid #2A2A32;
+  border-radius: 8px;
+  outline: none;
+}
+.login-card input:focus { border-color: #5A5AE6; }
+.login-card button {
+  width: 100%;
+  margin-top: 8px;
+  padding: 12px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  background: #4646D8;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.login-card button:hover { background: #5A5AE6; }

@@ -396,35 +396,75 @@
   }
 
   // ── 카피 ────────────────────────────────────────
+  var COPY_PAGE_URL = { '홈': '/', '행사안내': '/INFO/', '수출상담회': '/projects/export2026/', '신청폼': '/apply/' };
+
+  // 편집용 변환: <br> ↔ 줄바꿈 (사용자는 태그를 몰라도 됨)
+  function copyToEdit(v) { return String(v || '').replace(/<br\s*\/?>\s*/g, '\n'); }
+  function copyFromEdit(v) { return String(v || '').replace(/\n/g, '<br>\n'); }
+  function hasOtherTags(v) { return /<(?!br\s*\/?>)[a-z]/i.test(String(v || '')); }
+
   function renderCopy() {
     var groups = {};
     Object.entries(DB.copy || {}).forEach(function (kv) {
       (groups[kv[1].page] = groups[kv[1].page] || []).push([kv[0], kv[1]]);
     });
     $('#copy-groups').innerHTML = Object.entries(groups).map(function (g) {
-      return '<div class="card"><h3>' + esc(g[0]) + '</h3>' +
+      var url = COPY_PAGE_URL[g[0]];
+      return '<div class="card copy-group"><div class="copy-head"><h3>' + esc(g[0]) + ' 페이지</h3>' +
+        (url ? '<a href="' + url + '" target="_blank" rel="noopener">페이지 열기 ↗</a>' : '') + '</div>' +
         g[1].map(function (kv) {
+          var ev = copyToEdit(kv[1].value);
+          var rows = Math.min(8, Math.max(2, ev.split('\n').length));
           return '<div class="f-row"><label>' + esc(kv[1].label) + '</label>' +
-            '<textarea data-ckey="' + esc(kv[0]) + '">' + esc(kv[1].value) + '</textarea></div>';
+            '<textarea data-ckey="' + esc(kv[0]) + '" rows="' + rows + '" style="min-height:0">' + esc(ev) + '</textarea>' +
+            (hasOtherTags(kv[1].value) ? '<div class="tag-hint">&lt; &gt; 로 감싸인 부분은 디자인 강조 표시입니다. 그 안의 문구만 바꿔주세요.</div>' : '') +
+            '</div>';
         }).join('') + '</div>';
     }).join('');
+    // 수정 표시
+    $$('#copy-groups textarea[data-ckey]').forEach(function (t) {
+      t.dataset.orig = t.value;
+      t.addEventListener('input', function () {
+        t.closest('.f-row').classList.toggle('chg', t.value !== t.dataset.orig);
+      });
+    });
     // FAQ
     $('#faq-list').innerHTML = (DB.faq_home || []).map(function (f, i) {
       return '<div class="ed-item" data-fi="' + i + '"><div class="top"><span class="ttl">문항 ' + (i + 1) + '</span>' +
+        '<button class="mini" data-act="faq-up">↑</button><button class="mini" data-act="faq-down">↓</button>' +
         '<button class="mini del" data-act="faq-del">삭제</button></div>' +
         '<div class="f-row"><label>질문</label><input data-fq value="' + esc(f.q) + '"></div>' +
         '<div class="f-row"><label>답변</label><textarea data-fa>' + esc(f.a) + '</textarea></div></div>';
     }).join('');
+    applyCopyFilter();
   }
+
+  function applyCopyFilter() {
+    var q = ($('#copy-q').value || '').trim().toLowerCase();
+    $$('#copy-groups .f-row').forEach(function (row) {
+      var hay = (row.querySelector('label').textContent + ' ' + row.querySelector('textarea').value).toLowerCase();
+      row.style.display = !q || hay.indexOf(q) >= 0 ? '' : 'none';
+    });
+    $$('#copy-groups .copy-group').forEach(function (g) {
+      var visible = [].some.call(g.querySelectorAll('.f-row'), function (r) { return r.style.display !== 'none'; });
+      g.style.display = visible ? '' : 'none';
+    });
+  }
+  $('#copy-q').addEventListener('input', applyCopyFilter);
   $('#faq-add').addEventListener('click', function () {
     collectAll();
     (DB.faq_home = DB.faq_home || []).push({ q: '', a: '' });
     renderCopy();
   });
   $('#faq-list').addEventListener('click', function (e) {
-    if (e.target.dataset.act !== 'faq-del') return;
+    var act = e.target.dataset.act;
+    if (!act) return;
+    var i = +e.target.closest('.ed-item').dataset.fi;
     collectAll();
-    DB.faq_home.splice(+e.target.closest('.ed-item').dataset.fi, 1);
+    var arr = DB.faq_home;
+    if (act === 'faq-del') arr.splice(i, 1);
+    if (act === 'faq-up' && i > 0) { var t = arr[i - 1]; arr[i - 1] = arr[i]; arr[i] = t; }
+    if (act === 'faq-down' && i < arr.length - 1) { var t2 = arr[i + 1]; arr[i + 1] = arr[i]; arr[i] = t2; }
     renderCopy();
   });
   $('#copy-save').addEventListener('click', function () { collectAll(); saveDB('#copy-msg'); });
@@ -822,9 +862,9 @@
   // ── 화면 → DB 수집 ──────────────────────────────
   function collectAll() {
     if (!DB) return;
-    // 카피
+    // 카피 (편집용 줄바꿈 → <br> 복원)
     $$('#copy-groups textarea[data-ckey]').forEach(function (t) {
-      if (DB.copy[t.dataset.ckey]) DB.copy[t.dataset.ckey].value = t.value;
+      if (DB.copy[t.dataset.ckey]) DB.copy[t.dataset.ckey].value = copyFromEdit(t.value);
     });
     // FAQ
     var faqs = [];

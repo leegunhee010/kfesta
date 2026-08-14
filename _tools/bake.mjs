@@ -152,6 +152,7 @@ const TPL = (slug, d) => {
       <a href="../../BEAUTY/">BEAUTY</a>
       <a href="../../MARKET/">MARKET</a>
       <a href="../" class="on">프로젝트</a>
+      <a href="../../blog/">블로그</a>
     </nav>
     <a class="hd-cta" href="../../33/">참가문의</a>
     <button class="hd-burger" aria-label="메뉴"><span></span><span></span><span></span></button>
@@ -234,6 +235,7 @@ ${gallery}
       <a href="../../MARKET/">MARKET</a>
       <a href="../export2026/">대구메이드 K-Festa</a>
       <a href="../">프로젝트</a>
+      <a href="../../blog/">블로그</a>
       <a href="../../33/">참가문의</a>
     </nav>
   </div>
@@ -289,7 +291,218 @@ for (const it of items) {
   write('sitemap.xml', s);
 }
 
-// ── 7) 모집 기간 → site.js D-day ─────────────────────
+// ── 7) 블로그 (목록 + 글 상세 + 청소) ─────────────────
+const CHROME = (depth, active) => {
+  const r = depth === 1 ? '../' : '../../';
+  const nav = (name, href, on) => '      <a href="' + href + '"' + (on ? ' class="on"' : '') + '>' + name + '</a>';
+  return {
+    header: `<header class="hd">
+  <div class="wrap">
+    <a class="hd-logo" href="${r}"><img src="${r}assets/img/b85af70e2ee60.webp" alt="KFESTA"></a>
+    <nav class="hd-nav">
+      <a href="${r}projects/export2026/" class="hl">대구메이드 K-Festa</a>
+${nav('행사안내', r + 'INFO/')}
+${nav('BEAUTY', r + 'BEAUTY/')}
+${nav('MARKET', r + 'MARKET/')}
+${nav('프로젝트', r + 'projects/')}
+${nav('블로그', depth === 1 ? './' : '../', active === 'blog')}
+    </nav>
+    <a class="hd-cta" href="${r}33/">참가문의</a>
+    <button class="hd-burger" aria-label="메뉴"><span></span><span></span><span></span></button>
+  </div>
+</header>`,
+    footer: `<footer class="ft">
+  <div class="wrap">
+    <div class="ft-info">
+      <strong>주식회사 퍼스트마케팅컴퍼니</strong><br>
+      대표 김우석 · 사업자등록번호 884-88-01123 · 통신판매업신고 2021-대구동구-0697<br>
+      대구: 대구광역시 중구 국채보상로 488 (동산동, 섬유회관) 3층 · 서울: 서울시 광진구 능동로49길 9, 2F<br>
+      개인정보관리책임자 김우석 (work@firstmkt.co.kr) · 연락처 070-4212-8266 · info@firstmkt.co.kr
+      <div class="ft-copy">Copyright ⓒ 2026 KFESTA. All rights reserved.</div>
+    </div>
+    <nav class="ft-nav">
+      <a href="${r}INFO/">행사안내</a>
+      <a href="${r}BEAUTY/">BEAUTY</a>
+      <a href="${r}MARKET/">MARKET</a>
+      <a href="${r}projects/export2026/">대구메이드 K-Festa</a>
+      <a href="${r}projects/">프로젝트</a>
+      <a href="${depth === 1 ? './' : '../'}">블로그</a>
+      <a href="${r}33/">참가문의</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="${r}assets/js/config.js"></script>
+<script src="${r}assets/js/site.js"></script>`,
+    head: (title, desc, canonical, og, extra) => `<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${title}</title>
+<meta name="description" content="${escAttr(desc)}">
+<link rel="canonical" href="${canonical}">
+<meta property="og:type" content="${og.type || 'website'}">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:site_name" content="KFESTA">
+<meta property="og:title" content="${escAttr(title)}">
+<meta property="og:description" content="${escAttr(desc)}">
+<meta property="og:url" content="${canonical}">
+<meta property="og:image" content="${og.image}">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+${extra || ''}<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"></noscript>
+<link rel="stylesheet" href="${depth === 1 ? '../' : '../../'}assets/css/site.css">
+</head>
+<body>
+`,
+  };
+};
+
+{
+  const posts = (data.blog?.posts || []).filter((p) => !p.hidden)
+    .sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+  const cats = [...new Set(posts.map((p) => p.category).filter(Boolean))];
+
+  // 목록 페이지
+  const c1 = CHROME(1, 'blog');
+  const cards = posts.map((p) =>
+    '      <a class="post-card" href="' + p.slug + '/" data-cat="' + escAttr(p.category || '') + '">\n' +
+    '        <div class="ph" data-bg="../' + p.cover + '"></div>\n' +
+    '        <div class="tx"><div class="cat">' + (p.category || '') + '</div>\n' +
+    '          <h3>' + p.title + '</h3>\n' +
+    '          <div class="date">' + (p.date || '') + '</div>\n' +
+    '          <p class="ex">' + (p.excerpt || '') + '</p>\n' +
+    '        </div>\n      </a>'
+  ).join('\n');
+  const listHtml = c1.head('블로그 | KFESTA 2026', 'KFESTA 소식과 베트남 시장 이야기. 행사 공지와 현장 기록을 전합니다.',
+    'https://kfesta.vn/blog/', { image: 'https://kfesta.vn/assets/img/og.jpg' }) +
+`
+${c1.header}
+
+<main>
+
+<section class="page-hero" style="background-image:url('../assets/img/a4b4009b2a878.webp')">
+  <h1>블로그</h1>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="blog-cats">
+      <button class="on" data-cat="">전체</button>
+${cats.map((c) => '      <button data-cat="' + escAttr(c) + '">' + c + '</button>').join('\n')}
+    </div>
+    <div class="post-grid">
+${cards}
+    </div>
+  </div>
+</section>
+
+</main>
+
+${c1.footer}
+<script>
+document.querySelectorAll('.blog-cats button').forEach(function (b) {
+  b.addEventListener('click', function () {
+    document.querySelectorAll('.blog-cats button').forEach(function (x) { x.classList.remove('on'); });
+    b.classList.add('on');
+    var cat = b.dataset.cat;
+    document.querySelectorAll('.post-card').forEach(function (c) {
+      c.style.display = (!cat || c.dataset.cat === cat) ? '' : 'none';
+    });
+  });
+});
+</script>
+</body>
+</html>
+`;
+  write('blog/index.html', listHtml);
+  changed++;
+
+  // 글 상세
+  const genB = [];
+  for (const p of posts) {
+    const c2 = CHROME(2, 'blog');
+    const title = (p.seo_title || p.title) + ' | KFESTA';
+    const desc = p.seo_desc || p.excerpt || '';
+    const canonical = 'https://kfesta.vn/blog/' + p.slug + '/';
+    const ld = {
+      '@context': 'https://schema.org', '@type': 'Article',
+      headline: p.title, datePublished: p.date,
+      image: 'https://kfesta.vn/' + p.cover,
+      author: { '@type': 'Organization', name: 'KFESTA', url: 'https://kfesta.vn/' },
+      publisher: { '@type': 'Organization', name: '주식회사 퍼스트마케팅컴퍼니' },
+      mainEntityOfPage: canonical,
+    };
+    const html = c2.head(title, desc, canonical,
+      { type: 'article', image: 'https://kfesta.vn/' + p.cover },
+      '<script type="application/ld+json">\n' + JSON.stringify(ld, null, 2) + '\n</script>\n') +
+`
+${c2.header}
+
+<main>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="post-head">
+      <div class="cat">${p.category || ''}</div>
+      <h1>${p.title}</h1>
+      <div class="date">${p.date || ''}</div>
+    </div>
+    <div class="post-cover"><img src="../../${p.cover}" alt="${escAttr(p.title)}"></div>
+    <article class="post-body">
+${p.body}
+    </article>
+    <div class="tc" style="margin-top:50px"><a class="btn" href="../">목록으로</a></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="doc-cta">
+  <p><strong>2026 대구메이드 K-Festa 베트남 수출상담회 참가기업 모집</strong><br>접수 2026. 8. 17.(월) ~ 9. 20.(일)</p>
+  <a class="btn big" href="../../apply/">참가 신청하기</a>
+</section>
+
+</main>
+
+${c2.footer}
+</body>
+</html>
+`;
+    write('blog/' + p.slug + '/index.html', html);
+    genB.push(p.slug);
+    changed++;
+  }
+  console.log('블로그:', posts.length, '글');
+
+  // 청소 + 사이트맵
+  const genFile = path.join(SITE, 'data', '.generated-blog.json');
+  let prevB = [];
+  try { prevB = JSON.parse(fs.readFileSync(genFile, 'utf8')); } catch {}
+  let s = read('sitemap.xml');
+  for (const slug of prevB) {
+    if (!genB.includes(slug) && /^[a-z0-9-]+$/.test(slug)) {
+      fs.rmSync(path.join(SITE, 'blog', slug), { recursive: true, force: true });
+      s = s.replace(new RegExp('\\s*<url><loc>https://kfesta\\.vn/blog/' + slug + '/</loc>[^\\n]*</url>'), '');
+      console.log('블로그 삭제:', slug);
+    }
+  }
+  if (!s.includes('https://kfesta.vn/blog/</loc>')) {
+    s = s.replace('</urlset>', '  <url><loc>https://kfesta.vn/blog/</loc><priority>0.7</priority></url>\n</urlset>');
+  }
+  for (const slug of genB) {
+    const loc = 'https://kfesta.vn/blog/' + slug + '/';
+    if (!s.includes(loc)) s = s.replace('</urlset>', '  <url><loc>' + loc + '</loc><priority>0.6</priority></url>\n</urlset>');
+  }
+  write('sitemap.xml', s);
+  fs.writeFileSync(genFile, JSON.stringify(genB));
+}
+
+// ── 8) 모집 기간 → site.js D-day ─────────────────────
 {
   const [oy, om, od] = (data.settings.recruit_open || '2026-08-17').split('-').map(Number);
   const [cy, cm, cd] = (data.settings.recruit_close || '2026-09-20').split('-').map(Number);

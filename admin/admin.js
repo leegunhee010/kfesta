@@ -99,7 +99,7 @@
       .then(function (d) { INQS = d || []; renderInq(); renderDash(); });
   }
   function contentTabsOff() {
-    ['#nav-prj', '#nav-copy', '#nav-seo'].forEach(function (s) { $(s).classList.add('dis'); });
+    ['#nav-prj', '#nav-blog', '#nav-copy', '#nav-seo'].forEach(function (s) { $(s).classList.add('dis'); });
   }
 
   // ── 원격 로그인 ─────────────────────────────────
@@ -371,7 +371,7 @@
       msg(msgSel, r.ok ? 'ok' : 'err', r.ok ? '게시 완료. 사이트에 반영되었습니다.' : '게시 실패 — 설정 탭 로그 확인');
     }).catch(function (e) { msg(msgSel, 'err', '게시 실패: ' + e.message); });
   }
-  [['#pub2', '#prj-msg'], ['#pub3', '#copy-msg'], ['#pub4', '#seo-msg'], ['#pub5', '#set-msg']].forEach(function (p) {
+  [['#pub2', '#prj-msg'], ['#pub3', '#copy-msg'], ['#pub4', '#seo-msg'], ['#pub5', '#set-msg'], ['#pub6', '#blog-msg']].forEach(function (p) {
     $(p[0]).addEventListener('click', function () { collectAll(); publish(p[1]); });
   });
 
@@ -385,6 +385,7 @@
     renderCopy();
     renderSeo();
     renderPrjList();
+    renderBlogList();
     var s = DB.settings || {};
     $('#s-open').value = s.recruit_open || '';
     $('#s-close').value = s.recruit_close || '';
@@ -624,6 +625,119 @@
   // (구 카드/페이지 편집기 잔재 무효화)
   $('#prj-save').addEventListener('click', function () { collectAll(); saveDB('#prj-msg'); });
 
+  // ── 블로그 (게시판형) ───────────────────────────
+  var curPost = -1;
+
+  function renderBlogList() {
+    var posts = (DB.blog && DB.blog.posts) || [];
+    $('#blog-rows').innerHTML = posts.map(function (p, i) {
+      return '<tr data-i="' + i + '"' + (i === curPost ? ' style="background:#F2F3FF"' : '') + '>' +
+        '<td>' + esc(p.date || '') + '</td>' +
+        '<td class="em">' + esc(p.title || '(제목 없음)') + '</td>' +
+        '<td>' + esc(p.category || '') + '</td>' +
+        '<td>' + (p.hidden ? '<span class="st s보류">숨김</span>' : '<span class="st s선정">노출</span>') + '</td>' +
+        '<td><button class="mini del" data-act="del">삭제</button></td></tr>';
+    }).join('');
+  }
+
+  $('#blog-rows').addEventListener('click', function (e) {
+    var tr = e.target.closest('tr'); if (!tr) return;
+    var i = +tr.dataset.i;
+    collectBlog();
+    var posts = DB.blog.posts;
+    if (e.target.dataset.act === 'del') {
+      if (!confirm('"' + (posts[i].title || posts[i].slug) + '" 글을 삭제할까요?')) return;
+      posts.splice(i, 1);
+      if (curPost === i) { curPost = -1; $('#blog-editor-card').hidden = true; }
+      renderBlogList();
+      return;
+    }
+    curPost = i;
+    renderBlogList();
+    openBlogEditor();
+  });
+
+  $('#blog-new').addEventListener('click', function () {
+    var slug = prompt('글 주소(슬러그)를 입력하세요.\n영문 소문자·숫자·하이픈 (예: vietnam-market-2026)');
+    if (!slug) return;
+    slug = slug.trim().toLowerCase();
+    if (!/^[a-z0-9-]+$/.test(slug)) { alert('영문 소문자·숫자·하이픈만 사용할 수 있습니다.'); return; }
+    DB.blog = DB.blog || { categories: [], posts: [] };
+    if (DB.blog.posts.some(function (p) { return p.slug === slug; })) { alert('이미 있는 슬러그입니다.'); return; }
+    collectBlog();
+    var today = new Date();
+    var ds = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
+    DB.blog.posts.unshift({ slug: slug, title: '', category: DB.blog.categories[0] || '', date: ds,
+      cover: '', excerpt: '', body: '', seo_title: '', seo_desc: '', hidden: false });
+    curPost = 0;
+    renderBlogList();
+    openBlogEditor();
+    msg('#blog-msg', 'ok', slug + ' 생성. 작성 후 저장·게시하면 목록과 글 페이지가 만들어집니다.');
+  });
+
+  function openBlogEditor() {
+    var p = DB.blog.posts[curPost];
+    if (!p) return;
+    $('#blog-editor-card').hidden = false;
+    $('#blog-editor-title').textContent = (p.title || p.slug) + ' — /blog/' + p.slug + '/';
+    var cats = (DB.blog.categories || []);
+    $('#blog-form').innerHTML =
+      '<div class="f-grid3">' +
+      '<div class="f-row"><label>제목</label><input data-b="title" value="' + esc(p.title) + '"></div>' +
+      '<div class="f-row"><label>카테고리 (직접 입력 가능)</label><input data-b="category" list="blog-cats-dl" value="' + esc(p.category) + '">' +
+      '<datalist id="blog-cats-dl">' + cats.map(function (c) { return '<option value="' + esc(c) + '">'; }).join('') + '</datalist></div>' +
+      '<div class="f-row"><label>날짜</label><input type="date" data-b="date" value="' + esc(p.date) + '"></div>' +
+      '</div>' +
+      '<div class="f-grid2">' +
+      '<div class="f-row"><label>커버 이미지</label><div class="thumb-pick">' +
+      '<img src="../' + esc(p.cover) + '" onerror="this.style.opacity=.2">' +
+      '<input data-b="cover" value="' + esc(p.cover) + '" style="flex:1">' +
+      '<label class="mini" style="cursor:pointer">파일<input type="file" accept="image/*" data-bup="cover" hidden></label></div></div>' +
+      '<div class="f-row"><label>노출</label><select data-b="hidden">' +
+      '<option value=""' + (!p.hidden ? ' selected' : '') + '>노출</option>' +
+      '<option value="1"' + (p.hidden ? ' selected' : '') + '>숨김</option></select></div>' +
+      '</div>' +
+      '<div class="f-row"><label>요약 (목록 카드·검색 설명)</label><textarea data-b="excerpt">' + esc(p.excerpt) + '</textarea></div>' +
+      '<div class="f-row"><label>본문 — HTML 그대로 입력 (h2, p, table, img, ul, blockquote 등 지원)</label>' +
+      '<textarea data-b="body" style="min-height:340px;font-family:Consolas,monospace;font-size:13px">' + esc(p.body) + '</textarea></div>' +
+      '<div class="f-row"><label>본문에 이미지 넣기</label><div class="thumb-pick">' +
+      '<label class="mini" style="cursor:pointer">이미지 업로드 → 태그 복사<input type="file" accept="image/*" data-bup="bodyimg" hidden></label>' +
+      '<input id="blog-imgtag" readonly placeholder="업로드하면 여기 img 태그가 생깁니다. 복사해서 본문에 붙여넣으세요." style="flex:1"></div></div>' +
+      '<div class="f-grid2">' +
+      '<div class="f-row"><label>SEO 제목 (비우면 글 제목 사용)</label><input data-b="seo_title" value="' + esc(p.seo_title || '') + '"></div>' +
+      '<div class="f-row"><label>SEO 설명 (비우면 요약 사용)</label><input data-b="seo_desc" value="' + esc(p.seo_desc || '') + '"></div>' +
+      '</div>';
+  }
+
+  $('#blog-form').addEventListener('change', function (e) {
+    var which = e.target.dataset.bup;
+    if (!which || !e.target.files.length) return;
+    var p = DB.blog.posts[curPost];
+    uploadFile(e.target.files[0]).then(function (pth) {
+      collectBlog();
+      if (which === 'cover') { p.cover = pth; openBlogEditor(); }
+      else {
+        $('#blog-imgtag').value = '<img src="/' + pth + '" alt="">';
+        $('#blog-imgtag').select();
+        msg('#blog-msg', 'ok', '업로드 완료. img 태그를 복사해 본문에 붙여넣으세요.');
+      }
+    }).catch(function (er) { msg('#blog-msg', 'err', er.message); });
+  });
+
+  function collectBlog() {
+    var p = DB.blog && DB.blog.posts && DB.blog.posts[curPost];
+    if (!p || $('#blog-editor-card').hidden) return;
+    $$('#blog-form [data-b]').forEach(function (el) {
+      if (el.dataset.b === 'hidden') p.hidden = !!el.value;
+      else p[el.dataset.b] = el.value;
+    });
+    // 새 카테고리면 목록에 추가
+    if (p.category && DB.blog.categories.indexOf(p.category) < 0) DB.blog.categories.push(p.category);
+    renderBlogList();
+  }
+
+  $('#blog-save').addEventListener('click', function () { collectAll(); saveDB('#blog-msg'); });
+
   // ── 화면 → DB 수집 ──────────────────────────────
   function collectAll() {
     if (!DB) return;
@@ -645,8 +759,9 @@
         DB.seo[k].description = c.querySelector('[data-sd]').value;
       }
     });
-    // 프로젝트 (게시판형)
+    // 프로젝트·블로그 (게시판형)
     collectPrj();
+    collectBlog();
     // 설정
     DB.settings.recruit_open = $('#s-open').value;
     DB.settings.recruit_close = $('#s-close').value;

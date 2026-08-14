@@ -1,1 +1,412 @@
-{"copy":{"home.hero.p":{"value":"KFESTA는 베트남 현지에서 한국과 베트남이 함께 참여하는 한류 페스티벌로,<br>\n    음악·패션·뷰티·문화 등 다양한 온·오프라인 콘텐츠를 통해 양국의 새로운 소통과 교류를 만들어갑니다.","page":"홈","label":"히어로 소개 문단","file":"index.html","tag":"p"},"home.band.title":{"value":"2026 대구메이드 K-Festa <span class=\"y\">베트남 수출상담회</span>","page":"홈","label":"모집 밴드 제목","file":"index.html","tag":"h2"},"home.band.meta":{"value":"접수 2026. 8. 17.(월) ~ 9. 20.(일) · 대구 혁신기업 10개사 · 신청부터 사전 마케팅까지 비용 없음","page":"홈","label":"모집 밴드 설명줄","file":"index.html","tag":"div"},"home.strip.en":{"value":"Take the first step towards overseas expansion, join the KFESTA","page":"홈","label":"CTA 스트립 영문","file":"index.html","tag":"div"},"home.strip.h2":{"value":"베트남 진출의 첫 걸음,<br>케이페스타와 함께하세요","page":"홈","label":"CTA 스트립 제목","file":"index.html","tag":"h2"},"home.ctaband.h2":{"value":"현지 반응이 전략이 되는 순간<br>베트남 진출의 시작, KFESTA","page":"홈","label":"중간 CTA 밴드 제목","file":"index.html","tag":"h2"},"x26.band.title":{"value":"대구 혁신기업 <span class=\"y\">10개사</span>를 모집합니다","page":"수출상담회","label":"모집 밴드 제목","file":"projects/export2026/index.html","tag":"h2"},"x26.band.meta":{"value":"접수 2026. 8. 17.(월) ~ 9. 20.(일) · 신청부터 사전 마케팅까지 비용 없음","page":"수출상담회","label":"모집 밴드 설명줄","file":"projects/export2026/index.html","tag":"div"},"x26.callout.p1":{"value":"기존 수출상담회는 제품이 현지 시장에서 실제로 경쟁력이 있는지 충분히 검증되지 않은 상태에서 상담을 진행하는 경우가 많았습니다. 바이어와 명함만 교환한 채 실질적인 거래로 이어지지 못하는 한계가 있었습니다.","page":"수출상담회","label":"차별점 문단 1","file":"projects/export2026/index.html","tag":"p"},"x26.callout.p2":{"value":"<strong>이번 사업은 상담회의 순서를 바꿨습니다.</strong> 상담회에 앞서 참가기업의 제품을 베트남 현지 시장에 먼저 노출하고, 바이어의 문의와 반응을 확인한 후 최종 참가기업을 선정합니다. 현지 바이어의 관심과 수요가 사전에 확인된 제품을 중심으로 상담을 진행합니다.","page":"수출상담회","label":"차별점 문단 2","file":"projects/export2026/index.html","tag":"p"},"apply.note":{"value":"접수 기간 2026. 8. 17.(월) ~ 9. 20.(일) · 신청부터 사전 마케팅까지 비용이 없습니다.<br>\n      자세한 내용은 <a href=\"../projects/export2026/\" style=\"color:var(--link);font-weight:700\">모집 안내 페이지</a>를 확인하세요.","page":"신청폼","label":"신청서 상단 안내","file":"apply/index.html","tag":"p"},"info.lead":{"value":"케이페스타는 한국 브랜드가 베트남 시장에서 실제 소비자 반응과 시장 가능성을 직접 확인하고,<br>\n      그 결과를 바탕으로 브랜딩·파트너십·유통까지 이어갈 수 있도록 설계된 실행형 비즈니스 플랫폼입니다.<br>\n      단순 전시나 노출에 그치지 않고, 현장에서 얻은 데이터와 경험을 통해 브랜드의 현지 적합성을 점검하고<br>\n      다음 단계의 글로벌 확장을 현실적으로 준비할 수 있도록 돕습니다.","page":"행사안내","label":"소개 리드 문단","file":"INFO/index.html","tag":"p"}},"seo":{"index.html":{"title":"KFESTA 2026 | 한국과 베트남이 함께 참여하는 한류 페스티벌","description":"KFESTA는 베트남 현지에서 한국과 베트남이 함께 참여하는 한류 페스티벌로, 음악·패션·뷰티·문화 등 다양한 온·오프라인 콘텐츠를 통해 양국의 새로운 소통과 교류를 만들어갑니다."},"INFO/index.html":{"title":"행사안내 | KFESTA 2026","description":"케이페스타는 한국 브랜드가 베트남 시장에서 실제 소비자 반응과 시장 가능성을 직접 확인하는 실행형 비즈니스 플랫폼입니다."},"BEAUTY/index.html":{"title":"BEAUTY KFESTA 참가안내 | KFESTA 2026","description":"에스테틱 연계형 뷰티 런칭쇼, BEAUTY KFESTA. 베트남 에스테틱 네트워크를 통해 K-뷰티 브랜드의 현지 진출을 지원합니다."},"MARKET/index.html":{"title":"MARKET KFESTA 참가안내 | KFESTA 2026","description":"한국 브랜드의 베트남 진출에 대한 막연함을 현장 데이터로 바꾸는 실행형 로컬 검증 마켓, MARKET KFESTA."},"33/index.html":{"title":"참가문의 | KFESTA 2026","description":"KFESTA 참가문의. 담당자가 확인 후 연락드립니다."},"apply/index.html":{"title":"참가 신청 | 2026 대구메이드 K-Festa 베트남 수출상담회","description":"2026 대구메이드 K-Festa 베트남 수출상담회 참가기업 온라인 신청. 접수 2026.8.17~9.20, 신청부터 사전 마케팅까지 비용 없음."},"projects/index.html":{"title":"프로젝트 | KFESTA 2026","description":"KFESTA가 진행하는 한국-베트남 프로젝트. 수출상담회, 페스티벌, 로컬 마켓."},"projects/export2026/index.html":{"title":"2026 대구메이드 K-Festa 베트남 수출상담회 참가기업 모집 | KFESTA","description":"바이어 반응이 사전에 확인된 기업만 상담하는 베트남 수출상담회. 대구 혁신기업 10개사 모집, 접수 2026.8.17~9.20. 신청부터 사전 마케팅까지 비용 없음."},"projects/chimac2026/index.html":{"title":"2026 대구치맥페스티벌 in 베트남 | KFESTA","description":"대구치맥페스티벌의 베트남 진출 시범사업. 호치민·다낭 5개 브랜드 9개 매장, 치면 문화를 겨냥한 현지화 기획으로 참여 약 500명, SNS 노출 약 10만 2천 건을 기록했습니다."},"projects/daegumade/index.html":{"title":"대구메이드 DAEGU MADE | KFESTA","description":"대구 침장(침구) 기업의 베트남 진출 프로젝트. 호치민 쇼룸 상설 전시·판매와 바이어 매칭, 수출상담회 연계로 본오더까지 잇습니다."},"projects/export2023/index.html":{"title":"2023 KOREA BEDDING TRADE SHOW | KFESTA","description":"2023 글로컬 대구침장 특화산업 육성사업으로 열린 첫 베트남 수출상담회. 호치민 니코호텔에서 대구 침장 탑브랜드 5개사가 현지 바이어와 1:1 상담을 진행했습니다."},"projects/export2024/index.html":{"title":"2024 KOREA BEDDING TRADE SHOW | KFESTA","description":"호치민 나우존(NOWZONE) 쇼핑센터에서 5일간 열린 두 번째 수출상담회. 1:1 바이어 상담과 브랜드 런칭쇼, 틱톡 현장 라이브커머스를 병행해 상담과 소비자 반응 검증을 한 번에 진행했습니다."},"projects/export2025/index.html":{"title":"2025 K-BEDDING TRADE FAIR | KFESTA","description":"호치민 니코호텔 사이공에서 열린 세 번째 수출상담회. 대구광역시와 대구경북섬유직물공업협동조합이 함께한 K-BEDDING TRADE FAIR로 이어졌습니다."}},"faq_home":[{"q":"케이페스타(KFESTA)는 어떤 행사인가요?","a":"한국과 베트남이 함께 참여하는 한류 페스티벌입니다. 음악·패션·뷰티·문화 콘텐츠와 함께, 한국 브랜드가 베트남 시장에서 소비자 반응을 직접 확인하고 유통·파트너십으로 이어가도록 돕는 실행형 비즈니스 플랫폼입니다. MARKET KFESTA(로컬 검증 마켓), BEAUTY KFESTA(뷰티 런칭쇼), 베트남 수출상담회를 운영합니다."},{"q":"MARKET KFESTA와 BEAUTY KFESTA는 무엇이 다른가요?","a":"MARKET KFESTA는 베트남 현지 소비자를 직접 만나 제품·가격·패키지 반응을 검증하는 로컬 마켓으로, K-브랜드 25개사가 3회차에 걸쳐 참여했습니다. BEAUTY KFESTA는 에스테틱 연계형 뷰티 런칭쇼로, 호치민 니코호텔 사이공에서 베트남 스파·에스테틱 관계자 100~150명을 초청해 진행합니다."},{"q":"어떤 품목이 참가할 수 있나요?","a":"K-Beauty, K-Food, K-Health, K-Biz, K-Fashion, K-Education 등 베트남 진출을 준비하는 한국 브랜드라면 참가할 수 있습니다."},{"q":"행사는 어디에서 열리나요?","a":"베트남 호치민시에서 열립니다. MARKET KFESTA는 Cafe Shining Grory, BEAUTY KFESTA와 수출상담회는 1군 니코호텔 사이공(Hotel Nikko Saigon)에서 진행됩니다."},{"q":"참가 신청은 어떻게 하나요?","a":"참가문의 페이지에서 기업명과 연락처를 남겨주시면 담당자가 확인 후 연락드립니다. 전화(+82 10 2746 1547) 또는 이메일(info@firstmkt.co.kr)로도 문의할 수 있습니다."},{"q":"케이페스타는 누가 운영하나요?","a":"대구·서울에 거점을 둔 주식회사 퍼스트마케팅컴퍼니가 운영합니다. 베트남 현지 상주 인력과 한·베 통역, 현지 바이어 네트워크를 보유하고 있습니다."}],"projects":{"items":[{"type":"code","slug":"export2026","badge":"모집 중","title":"2026 대구메이드 K-Festa 베트남 수출상담회","meta":"접수 8. 17 ~ 9. 20 · 2026년 11월 · 니코호텔 사이공","desc":"대구 혁신기업 10개사와 베트남 바이어의 1:1 수출상담회. 바이어 매칭·통역·시장조사 투어까지 제공합니다.","thumb":"assets/img/fcd941e396b7e.webp","thumb_mode":""},{"type":"code","slug":"daegumade","badge":"진행 중","title":"대구메이드 DAEGU MADE","meta":"호치민 쇼룸 2개소 · 프리미엄 침구","desc":"대구 침장 기업의 제품을 호치민 쇼룸에서 상설 전시·판매하고, 바이어 매칭으로 수출 본오더까지 잇습니다.","thumb":"assets/img/daegumade-logo.webp","thumb_mode":"logo"},{"type":"code","slug":"chimac2026","badge":"종료","title":"2026 대구치맥페스티벌 in 베트남","meta":"2026년 7월 · 호치민·다낭 5개 브랜드 9개 매장","desc":"치면 문화를 겨냥한 현지화 기획. 직접 참여 약 500명, SNS 노출 약 10만 2천 건을 기록했습니다.","thumb":"assets/img/chimac/store-d1.webp","thumb_mode":""},{"type":"page","slug":"export2025","badge":"종료","title":"2025 K-BEDDING TRADE FAIR","meta":"2025년 9월 · 호치민 니코호텔 사이공","desc":"대구침장 베트남 수출상담회. 대구광역시·대구경북섬유직물공업협동조합이 함께했습니다.","thumb":"assets/img/archive/2025-backdrop.webp","thumb_mode":"","page":{"title":"2025 K-BEDDING TRADE FAIR","kicker":"2025","subtitle":"대구침장 베트남 수출상담회","hero":"assets/img/archive/2025-backdrop.webp","lead":"호치민 니코호텔 사이공에서 열린 세 번째 수출상담회. 대구광역시와 대구경북섬유직물공업협동조합이 함께한 K-BEDDING TRADE FAIR로 이어졌습니다.","rows":[{"k":"행사명","v":"2025 K-BEDDING TRADE FAIR"},{"k":"일시","v":"2025. 9. 18.(목) 10:00 ~ 18:00"},{"k":"장소","v":"베트남 호치민, 니코호텔 사이공 3층 컨퍼런스룸"},{"k":"주최","v":"대구광역시 · 대구경북섬유직물공업협동조합"},{"k":"수행","v":"주식회사 퍼스트마케팅컴퍼니"}],"wide":"assets/img/archive/2025-backdrop.webp","photos":[]}},{"type":"page","slug":"export2024","badge":"종료","title":"2024 KOREA BEDDING TRADE SHOW","meta":"2024년 10월 · 호치민 나우존 쇼핑센터","desc":"상담회·런칭쇼·라이브커머스 병행. 바이어 상담 58건, 상담액 USD 287만을 기록했습니다.","thumb":"assets/img/archive/2024-crowd.webp","thumb_mode":"","page":{"title":"2024 KOREA BEDDING TRADE SHOW","kicker":"2024","subtitle":"대구 침장 탑브랜드 상품전","hero":"assets/img/archive/2024-wide.webp","lead":"호치민 나우존(NOWZONE) 쇼핑센터에서 5일간 열린 두 번째 수출상담회. 1:1 바이어 상담과 브랜드 런칭쇼, 틱톡 현장 라이브커머스를 병행해 상담과 소비자 반응 검증을 한 번에 진행했습니다.","rows":[{"k":"행사명","v":"2024 KOREA BEDDING TRADE SHOW (대구 침장 탑브랜드 상품전)"},{"k":"일시","v":"2024. 10. 9.(수) ~ 13.(일) · 수출상담회 10. 11.(금)"},{"k":"장소","v":"베트남 호치민, 나우존(NOWZONE) 쇼핑센터"},{"k":"사업","v":"2024 글로컬 대구침장 특화산업 육성사업"},{"k":"참여","v":"대구 침장 탑브랜드 5개사 — 로얄홈 · 보네브 · 에프엔비글로벌 · 퀸센스 · 한빛"},{"k":"구성","v":"1:1 바이어 수출상담회 · 브랜드 런칭쇼(B2C 판매) · 틱톡 현장 라이브커머스"},{"k":"성과","v":"<strong>바이어 상담 58건 · 상담액 USD 287만 · 계약 추진액 USD 100만</strong>"},{"k":"수행","v":"주식회사 퍼스트마케팅컴퍼니"}],"wide":"assets/img/archive/2024-wide.webp","photos":[{"src":"assets/img/archive/2024-crowd.webp","alt":"행사장 대기 인파"},{"src":"assets/img/archive/2024-live.webp","alt":"현장 라이브커머스"}]}},{"type":"page","slug":"export2023","badge":"종료","title":"2023 KOREA BEDDING TRADE SHOW","meta":"2023년 9월 · 호치민 니코호텔 사이공","desc":"첫 베트남 수출상담회. 대구 침장 탑브랜드 5개사가 현지 바이어와 1:1 상담을 진행했습니다.","thumb":"assets/img/archive/2023-booth.webp","thumb_mode":"","page":{"title":"2023 KOREA BEDDING TRADE SHOW","kicker":"2023","subtitle":"대구 침장 탑(TOP) 브랜드 상품전","hero":"assets/img/archive/2023-booth.webp","lead":"2023 글로컬 대구침장 특화산업 육성사업으로 열린 첫 베트남 수출상담회. 호치민 니코호텔에서 대구 침장 탑브랜드 5개사가 현지 바이어와 1:1 상담을 진행했습니다.","rows":[{"k":"행사명","v":"2023 KOREA BEDDING TRADE SHOW (대구 침장 탑브랜드 상품전)"},{"k":"일시","v":"2023. 9. 21. 10:00"},{"k":"장소","v":"베트남 호치민, 니코호텔 사이공 4층 컨퍼런스룸"},{"k":"사업","v":"2023 글로컬 대구침장 특화산업 육성사업"},{"k":"참여","v":"대구 침장 탑브랜드 5개사 — 따뜻한 세상 · 따시온 · 로얄홈 · 퀸센스 · 한빛"},{"k":"구성","v":"1:1 바이어 수출상담회 · 전시 부스 운영"},{"k":"수행","v":"주식회사 퍼스트마케팅컴퍼니"}],"wide":"","photos":[{"src":"assets/img/archive/2023-open.webp","alt":"행사 개회"},{"src":"assets/img/archive/2023-booth.webp","alt":"전시 부스"},{"src":"assets/img/archive/2023-meeting.webp","alt":"1:1 바이어 상담"}]}},{"type":"link","href":"../BEAUTY/","badge":"참가 모집","title":"BEAUTY KFESTA","meta":"에스테틱 연계형 뷰티 런칭쇼","desc":"베트남 에스테틱 네트워크를 통해 K-뷰티 브랜드의 현지 진출을 지원합니다.","thumb":"assets/img/a14ab77ca8cc9.webp","thumb_mode":""},{"type":"link","href":"../MARKET/","badge":"참가 모집","title":"MARKET KFESTA","meta":"실행형 로컬 검증 마켓","desc":"베트남 진출에 대한 막연함을 현장 데이터로 바꾸는 로컬 검증 마켓입니다.","thumb":"assets/img/262593665a072.webp","thumb_mode":""}]},"settings":{"recruit_open":"2026-08-17","recruit_close":"2026-09-20","mail_to":"info@firstmkt.co.kr"}}
+{
+  "copy": {
+    "home.hero.p": {
+      "value": "KFESTA는 베트남 현지에서 한국과 베트남이 함께 참여하는 한류 페스티벌로,<br>\n    음악·패션·뷰티·문화 등 다양한 온·오프라인 콘텐츠를 통해 양국의 새로운 소통과 교류를 만들어갑니다.",
+      "page": "홈",
+      "label": "히어로 소개 문단",
+      "file": "index.html",
+      "tag": "p"
+    },
+    "home.band.title": {
+      "value": "2026 대구메이드 K-Festa <br><span class=\"y\">베트남 수출상담회</span>",
+      "page": "홈",
+      "label": "모집 밴드 제목",
+      "file": "index.html",
+      "tag": "h2"
+    },
+    "home.band.meta": {
+      "value": "접수 2026. 8. 17.(월) ~ 9. 20.(일) · 대구 혁신기업 10개사 · 신청부터 사전 마케팅까지 비용 없음",
+      "page": "홈",
+      "label": "모집 밴드 설명줄",
+      "file": "index.html",
+      "tag": "div"
+    },
+    "home.strip.en": {
+      "value": "Take the first step towards overseas expansion, join the KFESTA",
+      "page": "홈",
+      "label": "CTA 스트립 영문",
+      "file": "index.html",
+      "tag": "div"
+    },
+    "home.strip.h2": {
+      "value": "베트남 진출의 첫 걸음,<br>케이페스타와 함께하세요",
+      "page": "홈",
+      "label": "CTA 스트립 제목",
+      "file": "index.html",
+      "tag": "h2"
+    },
+    "home.ctaband.h2": {
+      "value": "현지 반응이 전략이 되는 순간<br>베트남 진출의 시작, KFESTA",
+      "page": "홈",
+      "label": "중간 CTA 밴드 제목",
+      "file": "index.html",
+      "tag": "h2"
+    },
+    "x26.band.title": {
+      "value": "대구 혁신기업 <span class=\"y\">10개사</span>를 모집합니다",
+      "page": "수출상담회",
+      "label": "모집 밴드 제목",
+      "file": "projects/export2026/index.html",
+      "tag": "h2"
+    },
+    "x26.band.meta": {
+      "value": "접수 2026. 8. 17.(월) ~ 9. 20.(일) · 신청부터 사전 마케팅까지 비용 없음",
+      "page": "수출상담회",
+      "label": "모집 밴드 설명줄",
+      "file": "projects/export2026/index.html",
+      "tag": "div"
+    },
+    "x26.callout.p1": {
+      "value": "기존 수출상담회는 제품이 현지 시장에서 실제로 경쟁력이 있는지 충분히 검증되지 않은 상태에서 상담을 진행하는 경우가 많았습니다. 바이어와 명함만 교환한 채 실질적인 거래로 이어지지 못하는 한계가 있었습니다.",
+      "page": "수출상담회",
+      "label": "차별점 문단 1",
+      "file": "projects/export2026/index.html",
+      "tag": "p"
+    },
+    "x26.callout.p2": {
+      "value": "<strong>이번 사업은 상담회의 순서를 바꿨습니다.</strong> 상담회에 앞서 참가기업의 제품을 베트남 현지 시장에 먼저 노출하고, 바이어의 문의와 반응을 확인한 후 최종 참가기업을 선정합니다. 현지 바이어의 관심과 수요가 사전에 확인된 제품을 중심으로 상담을 진행합니다.",
+      "page": "수출상담회",
+      "label": "차별점 문단 2",
+      "file": "projects/export2026/index.html",
+      "tag": "p"
+    },
+    "apply.note": {
+      "value": "접수 기간 2026. 8. 17.(월) ~ 9. 20.(일) · 신청부터 사전 마케팅까지 비용이 없습니다.<br>\n      자세한 내용은 <a href=\"../projects/export2026/\" style=\"color:var(--link);font-weight:700\">모집 안내 페이지</a>를 확인하세요.",
+      "page": "신청폼",
+      "label": "신청서 상단 안내",
+      "file": "apply/index.html",
+      "tag": "p"
+    },
+    "info.lead": {
+      "value": "케이페스타는 한국 브랜드가 베트남 시장에서 실제 소비자 반응과 시장 가능성을 직접 확인하고,<br>\n      그 결과를 바탕으로 브랜딩·파트너십·유통까지 이어갈 수 있도록 설계된 실행형 비즈니스 플랫폼입니다.<br>\n      단순 전시나 노출에 그치지 않고, 현장에서 얻은 데이터와 경험을 통해 브랜드의 현지 적합성을 점검하고<br>\n      다음 단계의 글로벌 확장을 현실적으로 준비할 수 있도록 돕습니다.",
+      "page": "행사안내",
+      "label": "소개 리드 문단",
+      "file": "INFO/index.html",
+      "tag": "p"
+    }
+  },
+  "seo": {
+    "index.html": {
+      "title": "KFESTA 2026 | 한국과 베트남이 함께 참여하는 한류 페스티벌",
+      "description": "KFESTA는 베트남 현지에서 한국과 베트남이 함께 참여하는 한류 페스티벌로, 음악·패션·뷰티·문화 등 다양한 온·오프라인 콘텐츠를 통해 양국의 새로운 소통과 교류를 만들어갑니다."
+    },
+    "INFO/index.html": {
+      "title": "행사안내 | KFESTA 2026",
+      "description": "케이페스타는 한국 브랜드가 베트남 시장에서 실제 소비자 반응과 시장 가능성을 직접 확인하는 실행형 비즈니스 플랫폼입니다."
+    },
+    "BEAUTY/index.html": {
+      "title": "BEAUTY KFESTA 참가안내 | KFESTA 2026",
+      "description": "에스테틱 연계형 뷰티 런칭쇼, BEAUTY KFESTA. 베트남 에스테틱 네트워크를 통해 K-뷰티 브랜드의 현지 진출을 지원합니다."
+    },
+    "MARKET/index.html": {
+      "title": "MARKET KFESTA 참가안내 | KFESTA 2026",
+      "description": "한국 브랜드의 베트남 진출에 대한 막연함을 현장 데이터로 바꾸는 실행형 로컬 검증 마켓, MARKET KFESTA."
+    },
+    "33/index.html": {
+      "title": "참가문의 | KFESTA 2026",
+      "description": "KFESTA 참가문의. 담당자가 확인 후 연락드립니다."
+    },
+    "apply/index.html": {
+      "title": "참가 신청 | 2026 대구메이드 K-Festa 베트남 수출상담회",
+      "description": "2026 대구메이드 K-Festa 베트남 수출상담회 참가기업 온라인 신청. 접수 2026.8.17~9.20, 신청부터 사전 마케팅까지 비용 없음."
+    },
+    "projects/index.html": {
+      "title": "프로젝트 | KFESTA 2026",
+      "description": "KFESTA가 진행하는 한국-베트남 프로젝트. 수출상담회, 페스티벌, 로컬 마켓."
+    },
+    "projects/export2026/index.html": {
+      "title": "2026 대구메이드 K-Festa 베트남 수출상담회 참가기업 모집 | KFESTA",
+      "description": "바이어 반응이 사전에 확인된 기업만 상담하는 베트남 수출상담회. 대구 혁신기업 10개사 모집, 접수 2026.8.17~9.20. 신청부터 사전 마케팅까지 비용 없음."
+    },
+    "projects/chimac2026/index.html": {
+      "title": "2026 대구치맥페스티벌 in 베트남 | KFESTA",
+      "description": "대구치맥페스티벌의 베트남 진출 시범사업. 호치민·다낭 5개 브랜드 9개 매장, 치면 문화를 겨냥한 현지화 기획으로 참여 약 500명, SNS 노출 약 10만 2천 건을 기록했습니다."
+    },
+    "projects/daegumade/index.html": {
+      "title": "대구메이드 DAEGU MADE | KFESTA",
+      "description": "대구 침장(침구) 기업의 베트남 진출 프로젝트. 호치민 쇼룸 상설 전시·판매와 바이어 매칭, 수출상담회 연계로 본오더까지 잇습니다."
+    },
+    "projects/export2023/index.html": {
+      "title": "2023 KOREA BEDDING TRADE SHOW | KFESTA",
+      "description": "2023 글로컬 대구침장 특화산업 육성사업으로 열린 첫 베트남 수출상담회. 호치민 니코호텔에서 대구 침장 탑브랜드 5개사가 현지 바이어와 1:1 상담을 진행했습니다."
+    },
+    "projects/export2024/index.html": {
+      "title": "2024 KOREA BEDDING TRADE SHOW | KFESTA",
+      "description": "호치민 나우존(NOWZONE) 쇼핑센터에서 5일간 열린 두 번째 수출상담회. 1:1 바이어 상담과 브랜드 런칭쇼, 틱톡 현장 라이브커머스를 병행해 상담과 소비자 반응 검증을 한 번에 진행했습니다."
+    },
+    "projects/export2025/index.html": {
+      "title": "2025 K-BEDDING TRADE FAIR | KFESTA",
+      "description": "호치민 니코호텔 사이공에서 열린 세 번째 수출상담회. 대구광역시와 대구경북섬유직물공업협동조합이 함께한 K-BEDDING TRADE FAIR로 이어졌습니다."
+    }
+  },
+  "faq_home": [
+    {
+      "q": "케이페스타(KFESTA)는 어떤 행사인가요?",
+      "a": "한국과 베트남이 함께 참여하는 한류 페스티벌입니다. 음악·패션·뷰티·문화 콘텐츠와 함께, 한국 브랜드가 베트남 시장에서 소비자 반응을 직접 확인하고 유통·파트너십으로 이어가도록 돕는 실행형 비즈니스 플랫폼입니다. MARKET KFESTA(로컬 검증 마켓), BEAUTY KFESTA(뷰티 런칭쇼), 베트남 수출상담회를 운영합니다."
+    },
+    {
+      "q": "MARKET KFESTA와 BEAUTY KFESTA는 무엇이 다른가요?",
+      "a": "MARKET KFESTA는 베트남 현지 소비자를 직접 만나 제품·가격·패키지 반응을 검증하는 로컬 마켓으로, K-브랜드 25개사가 3회차에 걸쳐 참여했습니다. BEAUTY KFESTA는 에스테틱 연계형 뷰티 런칭쇼로, 호치민 니코호텔 사이공에서 베트남 스파·에스테틱 관계자 100~150명을 초청해 진행합니다."
+    },
+    {
+      "q": "어떤 품목이 참가할 수 있나요?",
+      "a": "K-Beauty, K-Food, K-Health, K-Biz, K-Fashion, K-Education 등 베트남 진출을 준비하는 한국 브랜드라면 참가할 수 있습니다."
+    },
+    {
+      "q": "행사는 어디에서 열리나요?",
+      "a": "베트남 호치민시에서 열립니다. MARKET KFESTA는 Cafe Shining Grory, BEAUTY KFESTA와 수출상담회는 1군 니코호텔 사이공(Hotel Nikko Saigon)에서 진행됩니다."
+    },
+    {
+      "q": "참가 신청은 어떻게 하나요?",
+      "a": "참가문의 페이지에서 기업명과 연락처를 남겨주시면 담당자가 확인 후 연락드립니다. 전화(+82 10 2746 1547) 또는 이메일(info@firstmkt.co.kr)로도 문의할 수 있습니다."
+    },
+    {
+      "q": "케이페스타는 누가 운영하나요?",
+      "a": "대구·서울에 거점을 둔 주식회사 퍼스트마케팅컴퍼니가 운영합니다. 베트남 현지 상주 인력과 한·베 통역, 현지 바이어 네트워크를 보유하고 있습니다."
+    }
+  ],
+  "projects": {
+    "items": [
+      {
+        "type": "code",
+        "slug": "export2026",
+        "badge": "모집 중",
+        "title": "2026 대구메이드 K-Festa 베트남 수출상담회",
+        "meta": "접수 8. 17 ~ 9. 20 · 2026년 11월 · 니코호텔 사이공",
+        "desc": "대구 혁신기업 10개사와 베트남 바이어의 1:1 수출상담회. 바이어 매칭·통역·시장조사 투어까지 제공합니다.",
+        "thumb": "assets/img/fcd941e396b7e.webp",
+        "thumb_mode": ""
+      },
+      {
+        "type": "code",
+        "slug": "daegumade",
+        "badge": "진행 중",
+        "title": "대구메이드 DAEGU MADE",
+        "meta": "호치민 쇼룸 2개소 · 프리미엄 침구",
+        "desc": "대구 침장 기업의 제품을 호치민 쇼룸에서 상설 전시·판매하고, 바이어 매칭으로 수출 본오더까지 잇습니다.",
+        "thumb": "assets/img/daegumade-logo.webp",
+        "thumb_mode": "logo"
+      },
+      {
+        "type": "code",
+        "slug": "chimac2026",
+        "badge": "종료",
+        "title": "2026 대구치맥페스티벌 in 베트남",
+        "meta": "2026년 7월 · 호치민·다낭 5개 브랜드 9개 매장",
+        "desc": "치면 문화를 겨냥한 현지화 기획. 직접 참여 약 500명, SNS 노출 약 10만 2천 건을 기록했습니다.",
+        "thumb": "assets/img/chimac/store-d1.webp",
+        "thumb_mode": ""
+      },
+      {
+        "type": "page",
+        "slug": "export2025",
+        "badge": "종료",
+        "title": "2025 K-BEDDING TRADE FAIR",
+        "meta": "2025년 9월 · 호치민 니코호텔 사이공",
+        "desc": "대구침장 베트남 수출상담회. 대구광역시·대구경북섬유직물공업협동조합이 함께했습니다.",
+        "thumb": "assets/img/archive/2025-backdrop.webp",
+        "thumb_mode": "",
+        "page": {
+          "title": "2025 K-BEDDING TRADE FAIR",
+          "kicker": "2025",
+          "subtitle": "대구침장 베트남 수출상담회",
+          "hero": "assets/img/archive/2025-backdrop.webp",
+          "lead": "호치민 니코호텔 사이공에서 열린 세 번째 수출상담회. 대구광역시와 대구경북섬유직물공업협동조합이 함께한 K-BEDDING TRADE FAIR로 이어졌습니다.",
+          "rows": [
+            {
+              "k": "행사명",
+              "v": "2025 K-BEDDING TRADE FAIR"
+            },
+            {
+              "k": "일시",
+              "v": "2025. 9. 18.(목) 10:00 ~ 18:00"
+            },
+            {
+              "k": "장소",
+              "v": "베트남 호치민, 니코호텔 사이공 3층 컨퍼런스룸"
+            },
+            {
+              "k": "주최",
+              "v": "대구광역시 · 대구경북섬유직물공업협동조합"
+            },
+            {
+              "k": "수행",
+              "v": "주식회사 퍼스트마케팅컴퍼니"
+            }
+          ],
+          "wide": "assets/img/archive/2025-backdrop.webp",
+          "photos": []
+        }
+      },
+      {
+        "type": "page",
+        "slug": "export2024",
+        "badge": "종료",
+        "title": "2024 KOREA BEDDING TRADE SHOW",
+        "meta": "2024년 10월 · 호치민 나우존 쇼핑센터",
+        "desc": "상담회·런칭쇼·라이브커머스 병행. 바이어 상담 58건, 상담액 USD 287만을 기록했습니다.",
+        "thumb": "assets/img/archive/2024-crowd.webp",
+        "thumb_mode": "",
+        "page": {
+          "title": "2024 KOREA BEDDING TRADE SHOW",
+          "kicker": "2024",
+          "subtitle": "대구 침장 탑브랜드 상품전",
+          "hero": "assets/img/archive/2024-wide.webp",
+          "lead": "호치민 나우존(NOWZONE) 쇼핑센터에서 5일간 열린 두 번째 수출상담회. 1:1 바이어 상담과 브랜드 런칭쇼, 틱톡 현장 라이브커머스를 병행해 상담과 소비자 반응 검증을 한 번에 진행했습니다.",
+          "rows": [
+            {
+              "k": "행사명",
+              "v": "2024 KOREA BEDDING TRADE SHOW (대구 침장 탑브랜드 상품전)"
+            },
+            {
+              "k": "일시",
+              "v": "2024. 10. 9.(수) ~ 13.(일) · 수출상담회 10. 11.(금)"
+            },
+            {
+              "k": "장소",
+              "v": "베트남 호치민, 나우존(NOWZONE) 쇼핑센터"
+            },
+            {
+              "k": "사업",
+              "v": "2024 글로컬 대구침장 특화산업 육성사업"
+            },
+            {
+              "k": "참여",
+              "v": "대구 침장 탑브랜드 5개사 — 로얄홈 · 보네브 · 에프엔비글로벌 · 퀸센스 · 한빛"
+            },
+            {
+              "k": "구성",
+              "v": "1:1 바이어 수출상담회 · 브랜드 런칭쇼(B2C 판매) · 틱톡 현장 라이브커머스"
+            },
+            {
+              "k": "성과",
+              "v": "<strong>바이어 상담 58건 · 상담액 USD 287만 · 계약 추진액 USD 100만</strong>"
+            },
+            {
+              "k": "수행",
+              "v": "주식회사 퍼스트마케팅컴퍼니"
+            }
+          ],
+          "wide": "assets/img/archive/2024-wide.webp",
+          "photos": [
+            {
+              "src": "assets/img/archive/2024-crowd.webp",
+              "alt": "행사장 대기 인파"
+            },
+            {
+              "src": "assets/img/archive/2024-live.webp",
+              "alt": "현장 라이브커머스"
+            }
+          ]
+        }
+      },
+      {
+        "type": "page",
+        "slug": "export2023",
+        "badge": "종료",
+        "title": "2023 KOREA BEDDING TRADE SHOW",
+        "meta": "2023년 9월 · 호치민 니코호텔 사이공",
+        "desc": "첫 베트남 수출상담회. 대구 침장 탑브랜드 5개사가 현지 바이어와 1:1 상담을 진행했습니다.",
+        "thumb": "assets/img/archive/2023-booth.webp",
+        "thumb_mode": "",
+        "page": {
+          "title": "2023 KOREA BEDDING TRADE SHOW",
+          "kicker": "2023",
+          "subtitle": "대구 침장 탑(TOP) 브랜드 상품전",
+          "hero": "assets/img/archive/2023-booth.webp",
+          "lead": "2023 글로컬 대구침장 특화산업 육성사업으로 열린 첫 베트남 수출상담회. 호치민 니코호텔에서 대구 침장 탑브랜드 5개사가 현지 바이어와 1:1 상담을 진행했습니다.",
+          "rows": [
+            {
+              "k": "행사명",
+              "v": "2023 KOREA BEDDING TRADE SHOW (대구 침장 탑브랜드 상품전)"
+            },
+            {
+              "k": "일시",
+              "v": "2023. 9. 21. 10:00"
+            },
+            {
+              "k": "장소",
+              "v": "베트남 호치민, 니코호텔 사이공 4층 컨퍼런스룸"
+            },
+            {
+              "k": "사업",
+              "v": "2023 글로컬 대구침장 특화산업 육성사업"
+            },
+            {
+              "k": "참여",
+              "v": "대구 침장 탑브랜드 5개사 — 따뜻한 세상 · 따시온 · 로얄홈 · 퀸센스 · 한빛"
+            },
+            {
+              "k": "구성",
+              "v": "1:1 바이어 수출상담회 · 전시 부스 운영"
+            },
+            {
+              "k": "수행",
+              "v": "주식회사 퍼스트마케팅컴퍼니"
+            }
+          ],
+          "wide": "",
+          "photos": [
+            {
+              "src": "assets/img/archive/2023-open.webp",
+              "alt": "행사 개회"
+            },
+            {
+              "src": "assets/img/archive/2023-booth.webp",
+              "alt": "전시 부스"
+            },
+            {
+              "src": "assets/img/archive/2023-meeting.webp",
+              "alt": "1:1 바이어 상담"
+            }
+          ]
+        }
+      },
+      {
+        "type": "link",
+        "href": "../BEAUTY/",
+        "badge": "참가 모집",
+        "title": "BEAUTY KFESTA",
+        "meta": "에스테틱 연계형 뷰티 런칭쇼",
+        "desc": "베트남 에스테틱 네트워크를 통해 K-뷰티 브랜드의 현지 진출을 지원합니다.",
+        "thumb": "assets/img/a14ab77ca8cc9.webp",
+        "thumb_mode": ""
+      },
+      {
+        "type": "link",
+        "href": "../MARKET/",
+        "badge": "참가 모집",
+        "title": "MARKET KFESTA",
+        "meta": "실행형 로컬 검증 마켓",
+        "desc": "베트남 진출에 대한 막연함을 현장 데이터로 바꾸는 로컬 검증 마켓입니다.",
+        "thumb": "assets/img/262593665a072.webp",
+        "thumb_mode": ""
+      }
+    ]
+  },
+  "settings": {
+    "recruit_open": "2026-08-17",
+    "recruit_close": "2026-09-20",
+    "mail_to": "info@firstmkt.co.kr"
+  },
+  "blog": {
+    "categories": [
+      "공지사항",
+      "행사 소식",
+      "베트남 시장"
+    ],
+    "posts": [
+      {
+        "slug": "recruit-2026",
+        "title": "2026 대구메이드 K-Festa 베트남 수출상담회 참가기업 모집 공고",
+        "category": "공지사항",
+        "date": "2026-08-14",
+        "cover": "assets/img/beauty/day1-vip.webp",
+        "excerpt": "대구 혁신기업 10개사를 모집합니다. 접수 2026. 8. 17.(월) ~ 9. 20.(일), 신청부터 사전 마케팅까지 비용이 없습니다.",
+        "body": "<p>대구광역시 호치민사무소와 주식회사 퍼스트마케팅컴퍼니는 대구지역 혁신기업의 베트남 시장 진출을 지원하기 위하여 <strong>2026 대구메이드 K-Festa 베트남 수출상담회</strong>를 개최합니다.</p>\n<h2>무엇이 다른가</h2>\n<p>이번 사업은 상담회의 순서를 바꿨습니다. 상담회에 앞서 참가기업의 제품을 베트남 현지 시장에 먼저 노출하고, 바이어의 문의와 반응을 확인한 후 최종 참가기업을 선정합니다.</p>\n<h2>모집 개요</h2>\n<table><tr><th>모집규모</th><td>대구 소재 혁신기업 10개사</td></tr>\n<tr><th>접수기간</th><td>2026. 8. 17.(월) ~ 9. 20.(일)</td></tr>\n<tr><th>행사</th><td>2026년 11월 중, 호치민 니코호텔 사이공</td></tr>\n<tr><th>참가비</th><td>250만원(VAT 별도), 대구시 지원 75만원 — 실부담 175만원. 선정 10개사만 발생</td></tr></table>\n<h2>신청 방법</h2>\n<p><a href=\"/apply/\">kfesta.vn/apply</a>에서 온라인 신청서를 작성하면 됩니다. 신청부터 사전 마케팅까지 비용이 없습니다.</p>\n<p>문의: 문선호 책임 · 053-745-8008 · info@firstmkt.co.kr</p>",
+        "seo_title": "",
+        "seo_desc": ""
+      }
+    ]
+  }
+}

@@ -173,6 +173,7 @@ table.lst { width: 100%; border-collapse: collapse; font-size: 13.5px; }
       <a href="#apps" data-tab="apps" id="nav-apps">참가신청 <span class="cnt" id="cnt-apps" hidden>0</span></a>
       <a href="#inq" data-tab="inq" id="nav-inq">문의함 <span class="cnt" id="cnt-inq" hidden>0</span></a>
       <a href="#prj" data-tab="prj" id="nav-prj">프로젝트</a>
+      <a href="#blog" data-tab="blog" id="nav-blog">블로그</a>
       <a href="#copy" data-tab="copy" id="nav-copy">카피</a>
       <a href="#seo" data-tab="seo" id="nav-seo">SEO</a>
       <a href="#set" data-tab="set">설정</a>
@@ -267,6 +268,28 @@ table.lst { width: 100%; border-collapse: collapse; font-size: 13.5px; }
       <div class="card" id="prj-editor-card" hidden>
         <h3 id="prj-editor-title">프로젝트 수정</h3>
         <div id="prj-form"></div>
+      </div>
+    </section>
+
+    <!-- 블로그 (게시판형) -->
+    <section id="tab-blog" hidden>
+      <div class="tbar"><h1>블로그</h1><div class="sp"></div>
+        <button class="btn2" id="blog-new">+ 새 글 쓰기</button>
+        <button class="btnp" id="blog-save">저장</button><button class="btny" id="pub6">게시(굽기)</button><span class="tmsg" id="blog-msg"></span>
+      </div>
+      <div class="card">
+        <h3>글 목록</h3>
+        <div class="hint">행을 클릭해 수정하세요. 본문은 HTML을 그대로 붙여넣을 수 있습니다.</div>
+        <div class="tblw">
+          <table class="lst">
+            <thead><tr><th style="width:110px">날짜</th><th>제목</th><th>카테고리</th><th>노출</th><th style="width:70px">삭제</th></tr></thead>
+            <tbody id="blog-rows"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card" id="blog-editor-card" hidden>
+        <h3 id="blog-editor-title">글 수정</h3>
+        <div id="blog-form"></div>
       </div>
     </section>
 

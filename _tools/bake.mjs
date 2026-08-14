@@ -72,15 +72,17 @@ if ((data.faq_home || []).length) {
   console.log('FAQ:', data.faq_home.length, '문항 (화면+스키마)');
 }
 
-// ── 4) 프로젝트 허브 카드 ────────────────────────────
-if ((data.projects?.cards || []).length) {
+// ── 4) 프로젝트 허브 카드 (게시판형 items) ────────────
+const items = (data.projects?.items || []).filter((it) => it.hidden !== true);
+if (items.length) {
   let h = read('projects/index.html');
-  const cards = data.projects.cards.map((c) => {
-    const thumb = c.href.startsWith('../') ? c.thumb.replace(/^assets\//, '../assets/') : '../' + c.thumb;
+  const cards = items.map((c) => {
+    const href = c.type === 'link' ? c.href : c.slug + '/';
+    const thumb = c.type === 'link' ? '../' + c.thumb : '../' + c.thumb;
     const style = c.thumb_mode === 'logo'
       ? ' style="background-size:62%;background-color:#F6F6F8;background-repeat:no-repeat;background-position:center"' : '';
     const badgeCls = c.badge === '종료' ? 'badge done' : 'badge';
-    return '      <a class="prj-card" href="' + c.href + '">\n' +
+    return '      <a class="prj-card" href="' + href + '">\n' +
       '        <div class="ph" data-bg="' + thumb + '"' + style + '></div>\n' +
       '        <div class="tx">\n' +
       '          <span class="' + badgeCls + '">' + c.badge + '</span>\n' +
@@ -92,7 +94,7 @@ if ((data.projects?.cards || []).length) {
   h = h.replace(/(<div class="prj-grid">)[\s\S]*?(<\/div>\s*<\/div>\s*<\/section>)/,
     '$1\n' + cards + '\n    $2');
   write('projects/index.html', h); changed++;
-  console.log('허브 카드:', data.projects.cards.length, '장');
+  console.log('허브 카드:', items.length, '장');
 }
 
 // ── 5) 템플릿형 프로젝트 페이지 재생성 ────────────────
@@ -244,20 +246,44 @@ ${gallery}
 `;
 };
 
-for (const [slug, d] of Object.entries(data.projects?.pages || {})) {
-  write('projects/' + slug + '/index.html', TPL(slug, d));
+const genSlugs = [];
+for (const it of items) {
+  if (it.type !== 'page' || !it.page) continue;
+  const d = { title: it.title, ...it.page };
+  write('projects/' + it.slug + '/index.html', TPL(it.slug, d));
+  genSlugs.push(it.slug);
   changed++;
-  console.log('페이지:', slug);
+  console.log('페이지:', it.slug);
+}
+
+// 삭제된 게시판 페이지 청소: 직전 굽기에서 생성했지만 이번 목록에 없는 슬러그만 제거
+// (코드 관리 페이지는 .generated.json에 없으므로 절대 건드리지 않음)
+{
+  const genFile = path.join(SITE, 'data', '.generated.json');
+  let prev = [];
+  try { prev = JSON.parse(fs.readFileSync(genFile, 'utf8')); } catch {}
+  for (const slug of prev) {
+    if (!genSlugs.includes(slug) && /^[a-z0-9-]+$/.test(slug)) {
+      fs.rmSync(path.join(SITE, 'projects', slug), { recursive: true, force: true });
+      // 사이트맵에서도 제거
+      let s = read('sitemap.xml');
+      s = s.replace(new RegExp('\\s*<url><loc>https://kfesta\\.vn/projects/' + slug + '/</loc>[^\\n]*</url>'), '');
+      write('sitemap.xml', s);
+      console.log('페이지 삭제:', slug);
+    }
+  }
+  fs.writeFileSync(genFile, JSON.stringify(genSlugs));
 }
 
 // ── 6) 사이트맵 (신규 페이지 등재) ────────────────────
 {
   let s = read('sitemap.xml');
-  for (const slug of Object.keys(data.projects?.pages || {})) {
-    const loc = 'https://kfesta.vn/projects/' + slug + '/';
+  for (const it of items) {
+    if (it.type !== 'page') continue;
+    const loc = 'https://kfesta.vn/projects/' + it.slug + '/';
     if (!s.includes(loc)) {
       s = s.replace('</urlset>', '  <url><loc>' + loc + '</loc><priority>0.6</priority></url>\n</urlset>');
-      console.log('sitemap +', slug);
+      console.log('sitemap +', it.slug);
     }
   }
   write('sitemap.xml', s);

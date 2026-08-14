@@ -384,8 +384,7 @@
   function renderContent() {
     renderCopy();
     renderSeo();
-    renderCards();
-    renderPageSel();
+    renderPrjList();
     var s = DB.settings || {};
     $('#s-open').value = s.recruit_open || '';
     $('#s-close').value = s.recruit_close || '';
@@ -440,152 +439,189 @@
   }
   $('#seo-save').addEventListener('click', function () { collectAll(); saveDB('#seo-msg'); });
 
-  // ── 프로젝트: 허브 카드 ─────────────────────────
+  // ── 프로젝트 (게시판형) ─────────────────────────
   var BADGES = ['모집 중', '진행 중', '참가 모집', '종료'];
-  function renderCards() {
-    $('#cards-list').innerHTML = (DB.projects.cards || []).map(function (c, i) {
-      return '<div class="ed-item" data-ci="' + i + '">' +
-        '<div class="top"><span class="ttl">' + (i + 1) + '. ' + esc(c.title || '새 카드') + '</span>' +
-        '<button class="mini" data-act="up">↑</button><button class="mini" data-act="down">↓</button>' +
-        '<button class="mini del" data-act="del">삭제</button></div>' +
-        '<div class="f-grid3">' +
-        '<div class="f-row"><label>제목</label><input data-c="title" value="' + esc(c.title) + '"></div>' +
-        '<div class="f-row"><label>배지</label><select data-c="badge">' +
-        BADGES.map(function (b) { return '<option' + (b === c.badge ? ' selected' : '') + '>' + b + '</option>'; }).join('') +
-        '</select></div>' +
-        '<div class="f-row"><label>링크 (슬러그/ 또는 ../BEAUTY/)</label><input data-c="href" value="' + esc(c.href) + '"></div>' +
-        '</div>' +
-        '<div class="f-row"><label>메타 한 줄</label><input data-c="meta" value="' + esc(c.meta) + '"></div>' +
-        '<div class="f-row"><label>설명</label><textarea data-c="desc">' + esc(c.desc) + '</textarea></div>' +
-        '<div class="f-row"><label>썸네일</label><div class="thumb-pick">' +
-        '<img src="../' + esc(c.thumb) + '" onerror="this.style.opacity=.2">' +
-        '<input data-c="thumb" value="' + esc(c.thumb) + '" style="flex:1">' +
-        '<label class="mini" style="cursor:pointer">파일<input type="file" accept="image/*" data-act="thumb-up" hidden></label>' +
-        '</div></div></div>';
+  var TYPE_LABEL = { page: '게시판 등록', link: '외부 링크', code: '코드 관리' };
+  var curPrj = -1;
+
+  function renderPrjList() {
+    var items = DB.projects.items || [];
+    $('#prj-rows').innerHTML = items.map(function (it, i) {
+      return '<tr data-i="' + i + '"' + (i === curPrj ? ' style="background:#F2F3FF"' : '') + '>' +
+        '<td>' + (i + 1) + '</td>' +
+        '<td class="em">' + esc(it.title || '(제목 없음)') + '</td>' +
+        '<td>' + TYPE_LABEL[it.type] + '</td>' +
+        '<td><span class="st s' + esc(it.badge) + '">' + esc(it.badge) + '</span></td>' +
+        '<td><button class="mini" data-act="up">↑</button> <button class="mini" data-act="down">↓</button> ' +
+        '<button class="mini del" data-act="del">삭제</button></td></tr>';
     }).join('');
   }
-  $('#card-add').addEventListener('click', function () {
-    collectAll();
-    DB.projects.cards.push({ href: '', badge: '종료', title: '', meta: '', desc: '', thumb: '' });
-    renderCards();
-  });
-  $('#cards-list').addEventListener('click', function (e) {
-    var act = e.target.dataset.act; if (!act) return;
-    var item = e.target.closest('.ed-item'); var i = +item.dataset.ci;
-    collectAll();
-    var arr = DB.projects.cards;
-    if (act === 'del') arr.splice(i, 1);
-    if (act === 'up' && i > 0) { var t = arr[i - 1]; arr[i - 1] = arr[i]; arr[i] = t; }
-    if (act === 'down' && i < arr.length - 1) { var t2 = arr[i + 1]; arr[i + 1] = arr[i]; arr[i] = t2; }
-    renderCards();
-  });
-  $('#cards-list').addEventListener('change', function (e) {
-    if (e.target.dataset.act !== 'thumb-up' || !e.target.files.length) return;
-    var item = e.target.closest('.ed-item'); var i = +item.dataset.ci;
-    uploadFile(e.target.files[0]).then(function (p) {
-      collectAll();
-      DB.projects.cards[i].thumb = p;
-      renderCards();
-      msg('#prj-msg', 'ok', '업로드 완료: ' + p);
-    }).catch(function (er) { msg('#prj-msg', 'err', er.message); });
+
+  $('#prj-rows').addEventListener('click', function (e) {
+    var tr = e.target.closest('tr'); if (!tr) return;
+    var i = +tr.dataset.i;
+    var act = e.target.dataset.act;
+    collectPrj();
+    var arr = DB.projects.items;
+    if (act === 'del') {
+      if (!confirm('"' + (arr[i].title || arr[i].slug) + '" 프로젝트를 목록에서 삭제할까요?')) return;
+      arr.splice(i, 1);
+      if (curPrj === i) { curPrj = -1; $('#prj-editor-card').hidden = true; }
+      renderPrjList();
+      return;
+    }
+    if (act === 'up' && i > 0) { var t = arr[i - 1]; arr[i - 1] = arr[i]; arr[i] = t; if (curPrj === i) curPrj = i - 1; renderPrjList(); return; }
+    if (act === 'down' && i < arr.length - 1) { var t2 = arr[i + 1]; arr[i + 1] = arr[i]; arr[i] = t2; if (curPrj === i) curPrj = i + 1; renderPrjList(); return; }
+    // 행 클릭 → 편집
+    curPrj = i;
+    renderPrjList();
+    openPrjEditor();
   });
 
-  // ── 프로젝트: 템플릿 페이지 ─────────────────────
-  var curPage = '';
-  function renderPageSel() {
-    var slugs = Object.keys(DB.projects.pages || {});
-    if (!curPage && slugs.length) curPage = slugs[0];
-    $('#pg-sel').innerHTML = slugs.map(function (s) {
-      return '<option' + (s === curPage ? ' selected' : '') + '>' + s + '</option>';
-    }).join('');
-    renderPageForm();
-  }
-  function renderPageForm() {
-    var d = (DB.projects.pages || {})[curPage];
-    if (!d) { $('#pg-form').innerHTML = ''; return; }
-    $('#pg-form').innerHTML =
-      '<div class="f-grid3">' +
-      '<div class="f-row"><label>제목</label><input data-p="title" value="' + esc(d.title) + '"></div>' +
-      '<div class="f-row"><label>킥커(연도)</label><input data-p="kicker" value="' + esc(d.kicker) + '"></div>' +
-      '<div class="f-row"><label>부제</label><input data-p="subtitle" value="' + esc(d.subtitle) + '"></div>' +
-      '</div>' +
-      '<div class="f-row"><label>리드 문단</label><textarea data-p="lead">' + esc(d.lead) + '</textarea></div>' +
-      '<div class="f-grid2">' +
-      '<div class="f-row"><label>히어로 이미지 경로</label><div class="thumb-pick">' +
-      '<input data-p="hero" value="' + esc(d.hero) + '" style="flex:1">' +
-      '<label class="mini" style="cursor:pointer">파일<input type="file" accept="image/*" data-pup="hero" hidden></label></div></div>' +
-      '<div class="f-row"><label>와이드 사진 (선택)</label><div class="thumb-pick">' +
-      '<input data-p="wide" value="' + esc(d.wide || '') + '" style="flex:1">' +
-      '<label class="mini" style="cursor:pointer">파일<input type="file" accept="image/*" data-pup="wide" hidden></label></div></div>' +
-      '</div>' +
-      '<h3 style="margin:16px 0 10px;font-size:14px">개요 표</h3>' +
-      '<div id="rows-list">' + d.rows.map(function (r, i) {
-        return '<div class="ed-item" data-ri="' + i + '"><div class="top"><span class="ttl">행 ' + (i + 1) + '</span>' +
-          '<button class="mini" data-ract="up">↑</button><button class="mini" data-ract="down">↓</button>' +
-          '<button class="mini del" data-ract="del">삭제</button></div>' +
-          '<div class="f-grid2"><div class="f-row"><label>항목</label><input data-rk value="' + esc(r.k) + '"></div>' +
-          '<div class="f-row"><label>내용 (HTML 허용)</label><input data-rv value="' + esc(r.v) + '"></div></div></div>';
-      }).join('') + '</div>' +
-      '<button class="add-btn" id="row-add">+ 행 추가</button>' +
-      '<h3 style="margin:16px 0 10px;font-size:14px">현장 사진</h3>' +
-      '<div id="ph-list">' + (d.photos || []).map(function (p, i) {
-        return '<div class="ed-item" data-pi="' + i + '"><div class="top"><span class="ttl">사진 ' + (i + 1) + '</span>' +
-          '<button class="mini del" data-pact="del">삭제</button></div>' +
-          '<div class="thumb-pick"><img src="../' + esc(p.src) + '" onerror="this.style.opacity=.2">' +
-          '<input data-psrc value="' + esc(p.src) + '" style="flex:1" placeholder="경로">' +
-          '<input data-palt value="' + esc(p.alt || '') + '" style="width:150px" placeholder="설명"></div></div>';
-      }).join('') + '</div>' +
-      '<button class="add-btn" id="ph-add">+ 사진 추가 (파일 선택)</button>' +
-      '<input type="file" accept="image/*" id="ph-file" hidden>';
-
-    $('#row-add').addEventListener('click', function () {
-      collectAll(); DB.projects.pages[curPage].rows.push({ k: '', v: '' }); renderPageForm();
+  $('#prj-new').addEventListener('click', function () {
+    var slug = prompt('프로젝트 주소(슬러그)를 입력하세요.\n영문 소문자·숫자·하이픈 (예: export2027, beauty-day3)');
+    if (!slug) return;
+    slug = slug.trim().toLowerCase();
+    if (!/^[a-z0-9-]+$/.test(slug)) { alert('영문 소문자·숫자·하이픈만 사용할 수 있습니다.'); return; }
+    if ((DB.projects.items || []).some(function (it) { return it.slug === slug; })) { alert('이미 있는 슬러그입니다.'); return; }
+    collectPrj();
+    DB.projects.items.unshift({
+      type: 'page', slug: slug, badge: '진행 중', title: '', meta: '', desc: '', thumb: '', thumb_mode: '',
+      page: { kicker: '', subtitle: '', hero: '', lead: '', rows: [{ k: '행사명', v: '' }, { k: '일시', v: '' }, { k: '장소', v: '' }], wide: '', photos: [] },
     });
-    $('#ph-add').addEventListener('click', function () { $('#ph-file').click(); });
-    $('#ph-file').addEventListener('change', function () {
-      if (!this.files.length) return;
-      uploadFile(this.files[0]).then(function (p) {
-        collectAll();
-        DB.projects.pages[curPage].photos.push({ src: p, alt: '' });
-        renderPageForm();
-      }).catch(function (er) { msg('#prj-msg', 'err', er.message); });
-    });
-  }
-  $('#pg-sel').addEventListener('change', function () { collectAll(); curPage = this.value; renderPageForm(); });
-  $('#pg-new').addEventListener('click', function () {
-    var slug = prompt('새 페이지 슬러그 (영문·숫자, 예: export2027)');
-    if (!slug || !/^[a-z0-9-]+$/.test(slug)) return;
-    collectAll();
-    DB.projects.pages[slug] = {
-      title: '', kicker: '', subtitle: '', hero: '', lead: '', rows: [{ k: '행사명', v: '' }], wide: '', photos: [],
-    };
-    curPage = slug;
-    renderPageSel();
-    msg('#prj-msg', 'ok', slug + ' 생성됨. 내용 입력 후 저장·게시하세요. 허브 카드는 위에서 별도 추가.');
+    curPrj = 0;
+    renderPrjList();
+    openPrjEditor();
+    msg('#prj-msg', 'ok', slug + ' 생성. 내용 입력 후 저장·게시하면 카드와 페이지가 함께 만들어집니다.');
   });
-  $('#pg-form').addEventListener('click', function (e) {
+
+  function openPrjEditor() {
+    var it = DB.projects.items[curPrj];
+    if (!it) return;
+    $('#prj-editor-card').hidden = false;
+    $('#prj-editor-title').textContent = (it.title || it.slug || '새 프로젝트') + ' — ' + TYPE_LABEL[it.type];
+    var f = '';
+    // 카드 공통
+    f += '<h3 style="font-size:13px;color:var(--brand);margin-bottom:12px">카드 (프로젝트 목록에 보이는 것)</h3>';
+    f += '<div class="f-grid3">' +
+      '<div class="f-row"><label>제목</label><input data-c="title" value="' + esc(it.title) + '"></div>' +
+      '<div class="f-row"><label>배지</label><select data-c="badge">' +
+      BADGES.map(function (b) { return '<option' + (b === it.badge ? ' selected' : '') + '>' + b + '</option>'; }).join('') + '</select></div>' +
+      (it.type === 'link'
+        ? '<div class="f-row"><label>링크 주소</label><input data-c="href" value="' + esc(it.href || '') + '"></div>'
+        : '<div class="f-row"><label>주소(슬러그)</label><input value="' + esc(it.slug || '') + '" disabled></div>') +
+      '</div>';
+    f += '<div class="f-row"><label>메타 한 줄</label><input data-c="meta" value="' + esc(it.meta) + '"></div>';
+    f += '<div class="f-row"><label>카드 설명</label><textarea data-c="desc">' + esc(it.desc) + '</textarea></div>';
+    f += '<div class="f-grid2">' +
+      '<div class="f-row"><label>썸네일</label><div class="thumb-pick">' +
+      '<img src="../' + esc(it.thumb) + '" onerror="this.style.opacity=.2">' +
+      '<input data-c="thumb" value="' + esc(it.thumb) + '" style="flex:1">' +
+      '<label class="mini" style="cursor:pointer">파일<input type="file" accept="image/*" data-up="thumb" hidden></label></div></div>' +
+      '<div class="f-row"><label>썸네일 표시</label><select data-c="thumb_mode">' +
+      '<option value=""' + (!it.thumb_mode ? ' selected' : '') + '>사진 (꽉 채움)</option>' +
+      '<option value="logo"' + (it.thumb_mode === 'logo' ? ' selected' : '') + '>로고 (여백 두고 가운데)</option>' +
+      '</select></div></div>';
+
+    if (it.type === 'code') {
+      f += '<div class="hint" style="margin-top:6px">이 프로젝트의 상세 페이지는 별도 제작 페이지라 코드로 관리됩니다. 카드 정보만 수정할 수 있습니다.</div>';
+    }
+    if (it.type === 'page') {
+      var d = it.page;
+      f += '<h3 style="font-size:13px;color:var(--brand);margin:20px 0 12px">상세 페이지</h3>';
+      f += '<div class="f-grid2">' +
+        '<div class="f-row"><label>킥커 (연도·짧은 라벨)</label><input data-p="kicker" value="' + esc(d.kicker) + '"></div>' +
+        '<div class="f-row"><label>부제 (섹션 제목)</label><input data-p="subtitle" value="' + esc(d.subtitle) + '"></div></div>';
+      f += '<div class="f-row"><label>리드 문단</label><textarea data-p="lead">' + esc(d.lead) + '</textarea></div>';
+      f += '<div class="f-grid2">' +
+        '<div class="f-row"><label>히어로 이미지</label><div class="thumb-pick">' +
+        '<input data-p="hero" value="' + esc(d.hero) + '" style="flex:1">' +
+        '<label class="mini" style="cursor:pointer">파일<input type="file" accept="image/*" data-up="hero" hidden></label></div></div>' +
+        '<div class="f-row"><label>와이드 사진 (선택)</label><div class="thumb-pick">' +
+        '<input data-p="wide" value="' + esc(d.wide || '') + '" style="flex:1">' +
+        '<label class="mini" style="cursor:pointer">파일<input type="file" accept="image/*" data-up="wide" hidden></label></div></div></div>';
+      f += '<h3 style="font-size:13px;margin:14px 0 10px">개요 표</h3><div id="rows-list">' +
+        d.rows.map(function (r, i) {
+          return '<div class="ed-item" data-ri="' + i + '"><div class="top"><span class="ttl">행 ' + (i + 1) + '</span>' +
+            '<button class="mini" data-ract="up">↑</button><button class="mini" data-ract="down">↓</button>' +
+            '<button class="mini del" data-ract="del">삭제</button></div>' +
+            '<div class="f-grid2"><div class="f-row"><label>항목</label><input data-rk value="' + esc(r.k) + '"></div>' +
+            '<div class="f-row"><label>내용</label><input data-rv value="' + esc(r.v) + '"></div></div></div>';
+        }).join('') + '</div>' +
+        '<button class="add-btn" id="row-add">+ 행 추가</button>';
+      f += '<h3 style="font-size:13px;margin:14px 0 10px">현장 사진</h3><div id="ph-list">' +
+        (d.photos || []).map(function (p, i) {
+          return '<div class="ed-item" data-pi="' + i + '"><div class="top"><span class="ttl">사진 ' + (i + 1) + '</span>' +
+            '<button class="mini del" data-pact="del">삭제</button></div>' +
+            '<div class="thumb-pick"><img src="../' + esc(p.src) + '" onerror="this.style.opacity=.2">' +
+            '<input data-psrc value="' + esc(p.src) + '" style="flex:1" placeholder="경로">' +
+            '<input data-palt value="' + esc(p.alt || '') + '" style="width:150px" placeholder="설명"></div></div>';
+        }).join('') + '</div>' +
+        '<button class="add-btn" id="ph-add">+ 사진 추가 (파일 선택)</button>' +
+        '<input type="file" accept="image/*" id="ph-file" hidden>';
+    }
+    $('#prj-form').innerHTML = f;
+
+    var ra = $('#row-add');
+    if (ra) ra.addEventListener('click', function () { collectPrj(); it.page.rows.push({ k: '', v: '' }); openPrjEditor(); });
+    var pa = $('#ph-add');
+    if (pa) {
+      pa.addEventListener('click', function () { $('#ph-file').click(); });
+      $('#ph-file').addEventListener('change', function () {
+        if (!this.files.length) return;
+        uploadFile(this.files[0]).then(function (p) {
+          collectPrj(); it.page.photos.push({ src: p, alt: '' }); openPrjEditor();
+        }).catch(function (er) { msg('#prj-msg', 'err', er.message); });
+      });
+    }
+  }
+
+  $('#prj-form').addEventListener('click', function (e) {
     var ract = e.target.dataset.ract, pact = e.target.dataset.pact;
     if (!ract && !pact) return;
-    collectAll();
-    var d = DB.projects.pages[curPage];
+    var it = DB.projects.items[curPrj];
+    collectPrj();
     if (ract) {
       var i = +e.target.closest('.ed-item').dataset.ri;
-      if (ract === 'del') d.rows.splice(i, 1);
-      if (ract === 'up' && i > 0) { var t = d.rows[i - 1]; d.rows[i - 1] = d.rows[i]; d.rows[i] = t; }
-      if (ract === 'down' && i < d.rows.length - 1) { var t2 = d.rows[i + 1]; d.rows[i + 1] = d.rows[i]; d.rows[i] = t2; }
+      if (ract === 'del') it.page.rows.splice(i, 1);
+      if (ract === 'up' && i > 0) { var t = it.page.rows[i - 1]; it.page.rows[i - 1] = it.page.rows[i]; it.page.rows[i] = t; }
+      if (ract === 'down' && i < it.page.rows.length - 1) { var t2 = it.page.rows[i + 1]; it.page.rows[i + 1] = it.page.rows[i]; it.page.rows[i] = t2; }
     }
-    if (pact === 'del') d.photos.splice(+e.target.closest('.ed-item').dataset.pi, 1);
-    renderPageForm();
+    if (pact === 'del') it.page.photos.splice(+e.target.closest('.ed-item').dataset.pi, 1);
+    openPrjEditor();
   });
-  $('#pg-form').addEventListener('change', function (e) {
-    var which = e.target.dataset.pup;
+  $('#prj-form').addEventListener('change', function (e) {
+    var which = e.target.dataset.up;
     if (!which || !e.target.files.length) return;
+    var it = DB.projects.items[curPrj];
     uploadFile(e.target.files[0]).then(function (p) {
-      collectAll();
-      DB.projects.pages[curPage][which] = p;
-      renderPageForm();
+      collectPrj();
+      if (which === 'thumb') it.thumb = p; else it.page[which] = p;
+      openPrjEditor();
     }).catch(function (er) { msg('#prj-msg', 'err', er.message); });
   });
+
+  function collectPrj() {
+    var it = DB.projects.items[curPrj];
+    if (!it || $('#prj-editor-card').hidden) return;
+    $$('#prj-form [data-c]').forEach(function (el) { it[el.dataset.c] = el.value; });
+    if (it.type === 'page') {
+      $$('#prj-form [data-p]').forEach(function (el) { it.page[el.dataset.p] = el.value; });
+      var rows = [];
+      $$('#rows-list .ed-item').forEach(function (x) {
+        rows.push({ k: x.querySelector('[data-rk]').value, v: x.querySelector('[data-rv]').value });
+      });
+      it.page.rows = rows;
+      var phs = [];
+      $$('#ph-list .ed-item').forEach(function (x) {
+        phs.push({ src: x.querySelector('[data-psrc]').value, alt: x.querySelector('[data-palt]').value });
+      });
+      it.page.photos = phs;
+    }
+    renderPrjList();
+  }
+
+  // (구 카드/페이지 편집기 잔재 무효화)
   $('#prj-save').addEventListener('click', function () { collectAll(); saveDB('#prj-msg'); });
 
   // ── 화면 → DB 수집 ──────────────────────────────
@@ -609,27 +645,8 @@
         DB.seo[k].description = c.querySelector('[data-sd]').value;
       }
     });
-    // 카드
-    $$('#cards-list .ed-item').forEach(function (it) {
-      var c = DB.projects.cards[+it.dataset.ci];
-      if (!c) return;
-      it.querySelectorAll('[data-c]').forEach(function (el) { c[el.dataset.c] = el.value; });
-    });
-    // 템플릿 페이지
-    var d = DB.projects.pages[curPage];
-    if (d && $('#pg-form').children.length) {
-      $$('#pg-form [data-p]').forEach(function (el) { d[el.dataset.p] = el.value; });
-      var rows = [];
-      $$('#rows-list .ed-item').forEach(function (it) {
-        rows.push({ k: it.querySelector('[data-rk]').value, v: it.querySelector('[data-rv]').value });
-      });
-      d.rows = rows;
-      var phs = [];
-      $$('#ph-list .ed-item').forEach(function (it) {
-        phs.push({ src: it.querySelector('[data-psrc]').value, alt: it.querySelector('[data-palt]').value });
-      });
-      d.photos = phs;
-    }
+    // 프로젝트 (게시판형)
+    collectPrj();
     // 설정
     DB.settings.recruit_open = $('#s-open').value;
     DB.settings.recruit_close = $('#s-close').value;

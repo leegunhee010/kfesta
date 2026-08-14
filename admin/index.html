@@ -248,27 +248,25 @@ table.lst { width: 100%; border-collapse: collapse; font-size: 13.5px; }
       </div>
     </section>
 
-    <!-- 프로젝트 -->
+    <!-- 프로젝트 (게시판형) -->
     <section id="tab-prj" hidden>
       <div class="tbar"><h1>프로젝트</h1><div class="sp"></div>
+        <button class="btn2" id="prj-new">+ 새 프로젝트 등록</button>
         <button class="btnp" id="prj-save">저장</button><button class="btny" id="pub2">게시(굽기)</button><span class="tmsg" id="prj-msg"></span>
       </div>
       <div class="card">
-        <h3>허브 카드 (프로젝트 목록 순서대로)</h3>
-        <div class="hint">순서 이동은 ↑↓, 썸네일은 파일 선택 시 자동 업로드됩니다.</div>
-        <div id="cards-list"></div>
-        <button class="add-btn" id="card-add">+ 카드 추가</button>
-      </div>
-      <div class="card">
-        <h3>상세 페이지 (템플릿형: 개요 표 + 현장 사진)</h3>
-        <div class="hint">연도형 페이지를 수정하거나 새로 만듭니다. 치맥페·대구메이드·2026 모집 페이지는 별도 제작 페이지라 여기에 없습니다.</div>
-        <div class="f-row"><label>페이지 선택</label>
-          <div style="display:flex;gap:8px">
-            <select id="pg-sel" style="flex:1;border:1px solid var(--line);padding:9px 11px"></select>
-            <button class="btn2" id="pg-new">+ 새 페이지</button>
-          </div>
+        <h3>프로젝트 목록 (사이트 노출 순서)</h3>
+        <div class="hint">등록하면 프로젝트 카드와 상세 페이지가 함께 만들어집니다. 행을 클릭해 수정하세요.</div>
+        <div class="tblw">
+          <table class="lst">
+            <thead><tr><th style="width:36px">#</th><th>제목</th><th>유형</th><th>배지</th><th style="width:130px">순서·삭제</th></tr></thead>
+            <tbody id="prj-rows"></tbody>
+          </table>
         </div>
-        <div id="pg-form"></div>
+      </div>
+      <div class="card" id="prj-editor-card" hidden>
+        <h3 id="prj-editor-title">프로젝트 수정</h3>
+        <div id="prj-form"></div>
       </div>
     </section>
 

@@ -678,6 +678,7 @@
   function openBlogEditor() {
     var p = DB.blog.posts[curPost];
     if (!p) return;
+    rteSrcMode = false;
     $('#blog-editor-card').hidden = false;
     $('#blog-editor-title').textContent = (p.title || p.slug) + ' — /blog/' + p.slug + '/';
     var cats = (DB.blog.categories || []);
@@ -698,11 +699,30 @@
       '<option value="1"' + (p.hidden ? ' selected' : '') + '>숨김</option></select></div>' +
       '</div>' +
       '<div class="f-row"><label>요약 (목록 카드·검색 설명)</label><textarea data-b="excerpt">' + esc(p.excerpt) + '</textarea></div>' +
-      '<div class="f-row"><label>본문 — HTML 그대로 입력 (h2, p, table, img, ul, blockquote 등 지원)</label>' +
-      '<textarea data-b="body" style="min-height:340px;font-family:Consolas,monospace;font-size:13px">' + esc(p.body) + '</textarea></div>' +
-      '<div class="f-row"><label>본문에 이미지 넣기</label><div class="thumb-pick">' +
-      '<label class="mini" style="cursor:pointer">이미지 업로드 → 태그 복사<input type="file" accept="image/*" data-bup="bodyimg" hidden></label>' +
-      '<input id="blog-imgtag" readonly placeholder="업로드하면 여기 img 태그가 생깁니다. 복사해서 본문에 붙여넣으세요." style="flex:1"></div></div>' +
+      '<div class="f-row"><label>본문</label>' +
+      '<div class="rte"><div class="rte-bar">' +
+      '<button data-cmd="h2" title="제목">제목</button>' +
+      '<button data-cmd="h3" title="소제목">소제목</button>' +
+      '<button data-cmd="p" title="본문">본문</button>' +
+      '<span class="div"></span>' +
+      '<button data-cmd="bold" title="굵게"><b>B</b></button>' +
+      '<button data-cmd="italic" title="기울임"><i>I</i></button>' +
+      '<button data-cmd="underline" title="밑줄"><u>U</u></button>' +
+      '<span class="div"></span>' +
+      '<button data-cmd="ul" title="목록">• 목록</button>' +
+      '<button data-cmd="ol" title="번호 목록">1. 번호</button>' +
+      '<button data-cmd="quote" title="인용">❝ 인용</button>' +
+      '<span class="div"></span>' +
+      '<button data-cmd="link" title="링크">링크</button>' +
+      '<button data-cmd="img" title="이미지 업로드">이미지</button>' +
+      '<button data-cmd="table" title="표 삽입">표</button>' +
+      '<span class="div"></span>' +
+      '<button data-cmd="src" id="rte-srcbtn" title="HTML 소스 편집">HTML</button>' +
+      '</div>' +
+      '<div class="rte-area" id="rte-area" contenteditable="true">' + p.body + '</div>' +
+      '<textarea id="rte-src" hidden></textarea>' +
+      '<input type="file" accept="image/*" id="rte-imgfile" hidden>' +
+      '</div></div>' +
       '<div class="f-grid2">' +
       '<div class="f-row"><label>SEO 제목 (비우면 글 제목 사용)</label><input data-b="seo_title" value="' + esc(p.seo_title || '') + '"></div>' +
       '<div class="f-row"><label>SEO 설명 (비우면 요약 사용)</label><input data-b="seo_desc" value="' + esc(p.seo_desc || '') + '"></div>' +
@@ -710,18 +730,77 @@
   }
 
   $('#blog-form').addEventListener('change', function (e) {
-    var which = e.target.dataset.bup;
-    if (!which || !e.target.files.length) return;
-    var p = DB.blog.posts[curPost];
-    uploadFile(e.target.files[0]).then(function (pth) {
-      collectBlog();
-      if (which === 'cover') { p.cover = pth; openBlogEditor(); }
-      else {
-        $('#blog-imgtag').value = '<img src="/' + pth + '" alt="">';
-        $('#blog-imgtag').select();
-        msg('#blog-msg', 'ok', '업로드 완료. img 태그를 복사해 본문에 붙여넣으세요.');
+    if (e.target.dataset.bup === 'cover' && e.target.files.length) {
+      var p = DB.blog.posts[curPost];
+      uploadFile(e.target.files[0]).then(function (pth) {
+        collectBlog(); p.cover = pth; openBlogEditor();
+      }).catch(function (er) { msg('#blog-msg', 'err', er.message); });
+    }
+    if (e.target.id === 'rte-imgfile' && e.target.files.length) {
+      uploadFile(e.target.files[0]).then(function (pth) {
+        rteInsert('<img src="/' + pth + '" alt="">');
+        msg('#blog-msg', 'ok', '이미지가 본문에 삽입되었습니다.');
+      }).catch(function (er) { msg('#blog-msg', 'err', er.message); });
+    }
+  });
+
+  // ── 위지윅 에디터 ───────────────────────────────
+  var rteSrcMode = false;
+  function rteArea() { return $('#rte-area'); }
+  function rteInsert(html) {
+    var area = rteArea();
+    area.focus();
+    document.execCommand('insertHTML', false, html);
+  }
+  function rteBody() {
+    if (!rteArea()) return null;
+    return rteSrcMode ? $('#rte-src').value : rteArea().innerHTML;
+  }
+  $('#blog-form').addEventListener('mousedown', function (e) {
+    // 툴바 클릭이 에디터 포커스(선택 영역)를 뺏지 않게
+    if (e.target.closest('.rte-bar')) e.preventDefault();
+  });
+  $('#blog-form').addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-cmd]');
+    if (!btn) return;
+    var cmd = btn.dataset.cmd;
+    var area = rteArea();
+    if (cmd === 'src') {
+      var src = $('#rte-src');
+      rteSrcMode = !rteSrcMode;
+      if (rteSrcMode) {
+        src.value = area.innerHTML.replace(/></g, '>\n<');
+        area.hidden = true; src.hidden = false;
+        btn.classList.add('on');
+      } else {
+        area.innerHTML = src.value;
+        src.hidden = true; area.hidden = false;
+        btn.classList.remove('on');
       }
-    }).catch(function (er) { msg('#blog-msg', 'err', er.message); });
+      return;
+    }
+    if (rteSrcMode) { msg('#blog-msg', 'err', 'HTML 모드에서는 도구를 쓸 수 없습니다. HTML 버튼으로 돌아가세요.'); return; }
+    area.focus();
+    if (cmd === 'h2' || cmd === 'h3') document.execCommand('formatBlock', false, cmd.toUpperCase());
+    else if (cmd === 'p') document.execCommand('formatBlock', false, 'P');
+    else if (cmd === 'bold') document.execCommand('bold');
+    else if (cmd === 'italic') document.execCommand('italic');
+    else if (cmd === 'underline') document.execCommand('underline');
+    else if (cmd === 'ul') document.execCommand('insertUnorderedList');
+    else if (cmd === 'ol') document.execCommand('insertOrderedList');
+    else if (cmd === 'quote') document.execCommand('formatBlock', false, 'BLOCKQUOTE');
+    else if (cmd === 'link') {
+      var url = prompt('링크 주소 (예: https://... 또는 /apply/)');
+      if (url) document.execCommand('createLink', false, url);
+    }
+    else if (cmd === 'img') $('#rte-imgfile').click();
+    else if (cmd === 'table') {
+      var n = parseInt(prompt('표 행 수 (항목·내용 2열 표)', '3'), 10);
+      if (!n || n < 1) return;
+      var rows = '';
+      for (var i = 0; i < n; i++) rows += '<tr><th>항목</th><td>내용</td></tr>';
+      rteInsert('<table>' + rows + '</table><p></p>');
+    }
   });
 
   function collectBlog() {
@@ -731,6 +810,8 @@
       if (el.dataset.b === 'hidden') p.hidden = !!el.value;
       else p[el.dataset.b] = el.value;
     });
+    var body = rteBody();
+    if (body !== null) p.body = body;
     // 새 카테고리면 목록에 추가
     if (p.category && DB.blog.categories.indexOf(p.category) < 0) DB.blog.categories.push(p.category);
     renderBlogList();

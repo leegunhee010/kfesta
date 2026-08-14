@@ -142,6 +142,20 @@
       return;
 
       function submitFallback() {
+      // 2순위: 구글시트 수집 (Apps Script). no-cors라 응답은 못 읽지만 전송은 됨
+      if (cfg.SHEET_ENDPOINT) {
+        fetch(cfg.SHEET_ENDPOINT, {
+          method: 'POST', mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify({ type: 'inquiry', data: data }),
+        }).then(function () {
+          form.reset();
+          show(msg, 'ok', '문의가 접수되었습니다. 담당자가 곧 연락드리겠습니다.');
+        }).catch(function () { supabaseOrMail(); });
+        return;
+      }
+      supabaseOrMail();
+      function supabaseOrMail() {
       if (cfg.SUPABASE_URL && cfg.SUPABASE_ANON) {
         var btn = form.querySelector('button[type=submit]');
         btn.disabled = true;
@@ -175,6 +189,7 @@
           + '?subject=' + encodeURIComponent('[KFESTA 참가문의] ' + data.company)
           + '&body=' + encodeURIComponent(body);
         show(msg, 'ok', '메일 작성창이 열립니다. 전송해 주시면 접수됩니다.');
+      }
       }
       }
     });
@@ -247,6 +262,20 @@
       return;
 
       function applyFallback() {
+      // 2순위: 구글시트 수집 (Apps Script)
+      if (cfg.SHEET_ENDPOINT) {
+        fetch(cfg.SHEET_ENDPOINT, {
+          method: 'POST', mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify({ type: 'apply', data: data }),
+        }).then(function () {
+          aform.reset();
+          show(msg, 'ok', '신청서가 접수되었습니다. 담당자가 확인 후 개별 연락드립니다.');
+        }).catch(function () { supabaseOrMail(); });
+        return;
+      }
+      supabaseOrMail();
+      function supabaseOrMail() {
       if (cfg.SUPABASE_URL && cfg.SUPABASE_ANON) {
         var btn = aform.querySelector('button[type=submit]');
         btn.disabled = true;
@@ -283,6 +312,7 @@
           + '?subject=' + encodeURIComponent('[수출상담회 참가신청] ' + data.company)
           + '&body=' + encodeURIComponent(body);
         show(msg, 'ok', '메일 작성창이 열립니다. 전송해 주시면 접수됩니다.');
+      }
       }
       }
     });

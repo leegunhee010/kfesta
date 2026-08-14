@@ -430,14 +430,29 @@ document.querySelectorAll('.blog-cats button').forEach(function (b) {
     const title = (p.seo_title || p.title) + ' | KFESTA';
     const desc = p.seo_desc || p.excerpt || '';
     const canonical = 'https://kfesta.vn/blog/' + p.slug + '/';
-    const ld = {
-      '@context': 'https://schema.org', '@type': 'Article',
-      headline: p.title, datePublished: p.date,
+    const article = {
+      '@type': 'Article',
+      headline: p.title, datePublished: p.date, dateModified: p.updated || p.date,
       image: 'https://kfesta.vn/' + p.cover,
       author: { '@type': 'Organization', name: 'KFESTA', url: 'https://kfesta.vn/' },
       publisher: { '@type': 'Organization', name: '주식회사 퍼스트마케팅컴퍼니' },
       mainEntityOfPage: canonical,
     };
+    const strip = (s) => String(s || '').replace(/<[^>]+>/g, '');
+    const graph = [article];
+    if ((p.faqs || []).length) {
+      graph.push({ '@type': 'FAQPage', mainEntity: p.faqs.map((f) => ({
+        '@type': 'Question', name: strip(f.q),
+        acceptedAnswer: { '@type': 'Answer', text: strip(f.a) },
+      })) });
+    }
+    const ld = { '@context': 'https://schema.org', '@graph': graph };
+    // 본문: 루트 절대경로 링크를 상대경로로 보정 (서브패스 배포에서도 동작)
+    const bodyHtml = String(p.body || '').replace(/(href|src)="\/(?!\/)/g, '$1="../../');
+    const faqHtml = (p.faqs || []).length
+      ? '\n    <div class="faq" style="margin-top:44px">\n' + p.faqs.map((f) =>
+          '      <details>\n        <summary>' + f.q + '</summary>\n        <p>' + f.a + '</p>\n      </details>').join('\n') + '\n    </div>'
+      : '';
     const html = c2.head(title, desc, canonical,
       { type: 'article', image: 'https://kfesta.vn/' + p.cover },
       '<script type="application/ld+json">\n' + JSON.stringify(ld, null, 2) + '\n</script>\n') +
@@ -455,7 +470,7 @@ ${c2.header}
     </div>
     <div class="post-cover"><img src="../../${p.cover}" alt="${escAttr(p.title)}"></div>
     <article class="post-body">
-${p.body}
+${bodyHtml}${faqHtml}
     </article>
     <div class="tc" style="margin-top:50px"><a class="btn" href="../">목록으로</a></div>
   </div>

@@ -762,12 +762,46 @@
       '<div class="rte-area" id="rte-area" contenteditable="true">' + p.body + '</div>' +
       '<textarea id="rte-src" hidden></textarea>' +
       '<input type="file" accept="image/*" id="rte-imgfile" hidden>' +
-      '</div></div>' +
+      '</div><div class="hint" style="margin-top:6px" id="rte-count"></div></div>' +
+      '<div class="f-row"><label>글 FAQ (검색·AI 인용용 — 글 하단 아코디언 + 스키마 자동)</label>' +
+      '<div id="bfaq-list">' + (p.faqs || []).map(function (f, i) {
+        return '<div class="ed-item" data-qi="' + i + '"><div class="top"><span class="ttl">문항 ' + (i + 1) + '</span>' +
+          '<button class="mini del" data-qact="del">삭제</button></div>' +
+          '<div class="f-row"><label>질문</label><input data-qq value="' + esc(f.q) + '"></div>' +
+          '<div class="f-row"><label>답변</label><textarea data-qa>' + esc(f.a) + '</textarea></div></div>';
+      }).join('') + '</div>' +
+      '<button class="add-btn" id="bfaq-add" type="button">+ FAQ 문항 추가</button></div>' +
       '<div class="f-grid2">' +
       '<div class="f-row"><label>SEO 제목 (비우면 글 제목 사용)</label><input data-b="seo_title" value="' + esc(p.seo_title || '') + '"></div>' +
       '<div class="f-row"><label>SEO 설명 (비우면 요약 사용)</label><input data-b="seo_desc" value="' + esc(p.seo_desc || '') + '"></div>' +
       '</div>';
+
+    // 글자수 카운터 (본문 입력 시 실시간)
+    var cntEl = $('#rte-count');
+    function updateCount() {
+      var n = rteArea().innerText.replace(/\s+/g, '').length;
+      var advice = n < 300 ? '너무 짧습니다. 검색·AI 인용에는 800자 이상을 권장합니다.'
+        : n < 800 ? '조금 더 채우면 좋습니다. 권장 800~1,500자.'
+        : n <= 2200 ? '적정 분량입니다.' : '깁니다. 나눠 싣는 것도 방법입니다.';
+      cntEl.textContent = '본문 ' + n.toLocaleString() + '자 — ' + advice;
+    }
+    rteArea().addEventListener('input', updateCount);
+    updateCount();
+
+    $('#bfaq-add').addEventListener('click', function () {
+      collectBlog();
+      (p.faqs = p.faqs || []).push({ q: '', a: '' });
+      openBlogEditor();
+    });
   }
+
+  $('#blog-form').addEventListener('click', function (e) {
+    if (e.target.dataset.qact !== 'del') return;
+    var p = DB.blog.posts[curPost];
+    collectBlog();
+    p.faqs.splice(+e.target.closest('.ed-item').dataset.qi, 1);
+    openBlogEditor();
+  });
 
   $('#blog-form').addEventListener('change', function (e) {
     if (e.target.dataset.bup === 'cover' && e.target.files.length) {
@@ -846,12 +880,21 @@
   function collectBlog() {
     var p = DB.blog && DB.blog.posts && DB.blog.posts[curPost];
     if (!p || $('#blog-editor-card').hidden) return;
+    var before = JSON.stringify([p.title, p.excerpt, p.body, p.faqs || []]);
     $$('#blog-form [data-b]').forEach(function (el) {
       if (el.dataset.b === 'hidden') p.hidden = !!el.value;
       else p[el.dataset.b] = el.value;
     });
     var body = rteBody();
     if (body !== null) p.body = body;
+    // 글 FAQ 수집
+    p.faqs = $$('#bfaq-list .ed-item').map(function (it) {
+      return { q: it.querySelector('[data-qq]').value.trim(), a: it.querySelector('[data-qa]').value.trim() };
+    }).filter(function (f) { return f.q || f.a; });
+    // 내용이 바뀌었으면 수정일 갱신 (스키마 dateModified)
+    if (JSON.stringify([p.title, p.excerpt, p.body, p.faqs]) !== before) {
+      p.updated = new Date().toISOString().slice(0, 10);
+    }
     // 새 카테고리면 목록에 추가
     if (p.category && DB.blog.categories.indexOf(p.category) < 0) DB.blog.categories.push(p.category);
     renderBlogList();

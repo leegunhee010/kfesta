@@ -39,9 +39,45 @@ function readBody(req) {
   });
 }
 
+// 접수 데이터 저장 (data/applications.json·inquiries.json — .gitignore 대상)
+async function loadList(name) {
+  try { return JSON.parse(await fsp.readFile(path.join(SITE, 'data', name + '.json'), 'utf8')); }
+  catch { return []; }
+}
+async function saveList(name, list) {
+  await fsp.mkdir(path.join(SITE, 'data'), { recursive: true });
+  await fsp.writeFile(path.join(SITE, 'data', name + '.json'), JSON.stringify(list, null, 2));
+}
+
 async function api(req, res, p) {
   // 로컬 전용 관리 API — 배포 환경(GitHub Pages)에는 존재하지 않음
   if (p === '/api/ping') return json(res, 200, { ok: true, mode: 'local' });
+
+  // ── 폼 접수 (공개) ──
+  if ((p === '/api/submit/apply' || p === '/api/submit/inquiry') && req.method === 'POST') {
+    const name = p.endsWith('apply') ? 'applications' : 'inquiries';
+    const body = JSON.parse((await readBody(req)).toString('utf8'));
+    const list = await loadList(name);
+    const row = { id: Date.now(), ...body, status: '신규', memo: '', created_at: new Date().toISOString() };
+    list.unshift(row);
+    await saveList(name, list);
+    return json(res, 200, { ok: true, id: row.id });
+  }
+
+  // ── 접수 조회·수정 (관리자) ──
+  if (p === '/api/apps' && req.method === 'GET') return json(res, 200, await loadList('applications'));
+  if (p === '/api/inqs' && req.method === 'GET') return json(res, 200, await loadList('inquiries'));
+  if ((p === '/api/apps' || p === '/api/inqs') && req.method === 'POST') {
+    const name = p === '/api/apps' ? 'applications' : 'inquiries';
+    const patch = JSON.parse((await readBody(req)).toString('utf8'));
+    const list = await loadList(name);
+    const row = list.find((r) => r.id === patch.id);
+    if (!row) return json(res, 404, { ok: false, error: 'not found' });
+    if (patch.status !== undefined) row.status = patch.status;
+    if (patch.memo !== undefined) row.memo = patch.memo;
+    await saveList(name, list);
+    return json(res, 200, { ok: true });
+  }
 
   if (p === '/api/data' && req.method === 'GET') {
     const t = await fsp.readFile(DATA, 'utf8');

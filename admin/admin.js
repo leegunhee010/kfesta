@@ -65,13 +65,8 @@
       DB = d;
       enter();
       renderContent();
-      // 신청·문의: Supabase 설정이 있으면 병행 사용, 없으면 안내
-      if (cfg.SUPABASE_URL && cfg.SUPABASE_ANON) {
-        sb = window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON);
-        loadRemoteData();
-      } else {
-        dataTabsOff();
-      }
+      // 신청·문의: 로컬 서버가 직접 수집·보관 (data/*.json)
+      loadLocalSubmissions();
     });
   }
 
@@ -97,12 +92,11 @@
     });
   }
 
-  function dataTabsOff() {
-    var note = '백엔드(자체 서버) 연결 후 사용할 수 있습니다. 그 전까지 신청·문의는 ' +
-      (cfg.CONTACT_EMAIL || 'info@firstmkt.co.kr') + ' 메일로 접수됩니다.';
-    $('#apps-off').hidden = false; $('#apps-off').textContent = note; $('#apps-ui').hidden = true;
-    $('#inq-off').hidden = false; $('#inq-off').textContent = note; $('#inq-ui').hidden = true;
-    $('#dash-note').textContent = '참가신청·문의 수치는 백엔드 연결 후 집계됩니다.';
+  function loadLocalSubmissions() {
+    fetch('/api/apps').then(function (r) { return r.json(); })
+      .then(function (d) { APPS = d || []; renderApps(); renderDash(); });
+    fetch('/api/inqs').then(function (r) { return r.json(); })
+      .then(function (d) { INQS = d || []; renderInq(); renderDash(); });
   }
   function contentTabsOff() {
     ['#nav-prj', '#nav-copy', '#nav-seo'].forEach(function (s) { $(s).classList.add('dis'); });
@@ -329,16 +323,28 @@
   $('#d-close').addEventListener('click', closeDrawer);
   $('#drawer-bg').addEventListener('click', closeDrawer);
   $('#d-save').addEventListener('click', function () {
-    if (!current || !sb) return;
-    var table = current.kind === 'app' ? 'applications' : 'inquiries';
+    if (!current) return;
     var patch = { status: $('#d-status').value, memo: $('#d-memo').value };
-    sb.from(table).update(patch).eq('id', current.row.id).then(function (r) {
-      if (r.error) { msg('#d-msg', 'err', '저장 실패: ' + r.error.message); return; }
+    function done() {
       current.row.status = patch.status;
       current.row.memo = patch.memo;
       msg('#d-msg', 'ok', '저장됨');
       renderApps(); renderInq(); renderDash();
-    });
+    }
+    if (LOCAL) {
+      var ep = current.kind === 'app' ? '/api/apps' : '/api/inqs';
+      fetch(ep, { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: current.row.id, status: patch.status, memo: patch.memo }) })
+        .then(function (r) { return r.json(); })
+        .then(function (r) { if (!r.ok) throw new Error(r.error || '실패'); done(); })
+        .catch(function (e) { msg('#d-msg', 'err', '저장 실패: ' + e.message); });
+    } else if (sb) {
+      var table = current.kind === 'app' ? 'applications' : 'inquiries';
+      sb.from(table).update(patch).eq('id', current.row.id).then(function (r) {
+        if (r.error) { msg('#d-msg', 'err', '저장 실패: ' + r.error.message); return; }
+        done();
+      });
+    }
   });
 
   // ════════════════════════════════════════════════
@@ -384,8 +390,8 @@
     $('#s-open').value = s.recruit_open || '';
     $('#s-close').value = s.recruit_close || '';
     $('#s-mail').value = s.mail_to || '';
-    $('#dash-note').textContent = LOCAL && !sb ?
-      '로컬 관리 모드: 카피·SEO·프로젝트를 편집하고 게시(굽기)로 반영하세요. 신청·문의 집계는 백엔드 연결 후 표시됩니다.' : '';
+    $('#dash-note').textContent = LOCAL ?
+      '로컬 관리 모드: 신청·문의는 이 컴퓨터의 data 폴더에 저장됩니다. 콘텐츠 수정은 저장 후 게시(굽기)로 사이트에 반영하세요.' : '';
     renderDday();
   }
 

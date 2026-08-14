@@ -1,3 +1,5 @@
 .claude/
 __pycache__/
 *.pyc
+data/applications.json
+data/inquiries.json

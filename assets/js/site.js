@@ -121,6 +121,27 @@
       }
 
       var cfg = window.KF_CFG || {};
+      var btn0 = form.querySelector('button[type=submit]');
+      btn0.disabled = true;
+      // 1순위: 로컬/자체 서버 API (같은 오리진). 없으면 기존 체인으로 폴백
+      fetch('/api/submit/inquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      }).then(function (r) {
+        if (!r.ok) throw new Error('no local api');
+        return r.json();
+      }).then(function () {
+        form.reset();
+        show(msg, 'ok', '문의가 접수되었습니다. 담당자가 곧 연락드리겠습니다.');
+        btn0.disabled = false;
+      }).catch(function () {
+        btn0.disabled = false;
+        submitFallback();
+      });
+      return;
+
+      function submitFallback() {
       if (cfg.SUPABASE_URL && cfg.SUPABASE_ANON) {
         var btn = form.querySelector('button[type=submit]');
         btn.disabled = true;
@@ -154,6 +175,7 @@
           + '?subject=' + encodeURIComponent('[KFESTA 참가문의] ' + data.company)
           + '&body=' + encodeURIComponent(body);
         show(msg, 'ok', '메일 작성창이 열립니다. 전송해 주시면 접수됩니다.');
+      }
       }
     });
   }
@@ -204,6 +226,27 @@
         return;
       }
       var cfg = window.KF_CFG || {};
+      var abtn = aform.querySelector('button[type=submit]');
+      abtn.disabled = true;
+      // 1순위: 로컬/자체 서버 API. 없으면 기존 체인으로 폴백
+      fetch('/api/submit/apply', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      }).then(function (r) {
+        if (!r.ok) throw new Error('no local api');
+        return r.json();
+      }).then(function () {
+        aform.reset();
+        show(msg, 'ok', '신청서가 접수되었습니다. 담당자가 확인 후 개별 연락드립니다.');
+        abtn.disabled = false;
+      }).catch(function () {
+        abtn.disabled = false;
+        applyFallback();
+      });
+      return;
+
+      function applyFallback() {
       if (cfg.SUPABASE_URL && cfg.SUPABASE_ANON) {
         var btn = aform.querySelector('button[type=submit]');
         btn.disabled = true;
@@ -240,6 +283,7 @@
           + '?subject=' + encodeURIComponent('[수출상담회 참가신청] ' + data.company)
           + '&body=' + encodeURIComponent(body);
         show(msg, 'ok', '메일 작성창이 열립니다. 전송해 주시면 접수됩니다.');
+      }
       }
     });
   }

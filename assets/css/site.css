@@ -189,7 +189,7 @@ ul { list-style: none; }
 
 /* 번호 포인트 */
 .numbered { margin-top: 40px; display: flex; flex-direction: column; gap: 30px; }
-.numbered .np h4 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.numbered .np h3 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
 .numbered .np p { font-size: 16px; }
 
 /* 제안서 CTA */
@@ -359,9 +359,9 @@ a.prj-card:hover { border-color: var(--brand); }
 .step:not(:last-child)::after {
   content: ""; position: absolute; left: 21px; top: 48px; bottom: 4px; width: 2px; background: #E3E4F5;
 }
-.step h4 { grid-column: 2; font-size: 18px; font-weight: 700; padding-top: 8px; }
+.step h3 { grid-column: 2; font-size: 18px; font-weight: 700; padding-top: 8px; }
 .step p { grid-column: 2; }
-.step h4 .free { font-size: 12px; font-weight: 700; color: var(--brand); background: #f2f3ff; border-radius: 999px; padding: 3px 10px; margin-left: 8px; vertical-align: 2px; }
+.step h3 .free { font-size: 12px; font-weight: 700; color: var(--brand); background: #f2f3ff; border-radius: 999px; padding: 3px 10px; margin-left: 8px; vertical-align: 2px; }
 .step p { font-size: 15px; color: var(--ink); margin-top: 4px; }
 
 /* 강조 인용 박스 */
@@ -424,7 +424,8 @@ a.prj-card:hover { border-color: var(--brand); }
 .post-head h1 { font-size: 32px; font-weight: 800; line-height: 1.4; margin: 12px 0 14px; letter-spacing: -0.01em; }
 .post-head .date { font-size: 14px; color: var(--muted); }
 .post-cover { max-width: 900px; margin: 34px auto 0; }
-.post-cover img { width: 100%; display: block; }
+.post-cover { aspect-ratio: 16/9; overflow: hidden; }
+.post-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .post-body { max-width: 780px; margin: 44px auto 0; font-size: 17px; line-height: 1.85; color: #333; }
 .post-body h2 { font-size: 24px; font-weight: 800; margin: 44px 0 14px; color: var(--ink); }
 .post-body h3 { font-size: 19px; font-weight: 700; margin: 32px 0 10px; }

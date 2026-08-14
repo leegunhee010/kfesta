@@ -21,12 +21,12 @@ a { color: inherit; text-decoration: none; }
 
 /* 로그인 */
 .login-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: #060830; }
+.login-wrap[hidden] { display: none; } /* display:flex가 hidden 속성을 이기는 것 방지 */
 .login-box { background: #fff; width: min(400px, 92vw); padding: 40px 36px; }
-.login-box .lg { font-weight: 800; color: var(--brand); font-size: 22px; letter-spacing: -0.02em; margin-bottom: 4px; }
+.login-box .lg { font-weight: 800; color: var(--brand); font-size: 22px; margin-bottom: 4px; }
 .login-box .sub { font-size: 13px; color: var(--muted); margin-bottom: 26px; }
 .login-box label { display: block; font-size: 13px; font-weight: 700; margin: 14px 0 6px; }
 .login-box input { width: 100%; border: 1px solid var(--line); padding: 11px 12px; }
-.login-box input:focus { outline: 2px solid var(--brand); outline-offset: -1px; }
 .login-box button { width: 100%; margin-top: 22px; background: var(--brand); color: #fff; border: 0; padding: 13px; font-weight: 700; }
 .login-box .msg { margin-top: 12px; font-size: 13px; color: var(--danger); min-height: 18px; }
 
@@ -34,39 +34,51 @@ a { color: inherit; text-decoration: none; }
 .shell { display: none; min-height: 100vh; }
 .shell.on { display: grid; grid-template-columns: 220px 1fr; }
 .sb { background: #0B0D3A; color: #fff; padding: 22px 0; position: sticky; top: 0; height: 100vh; }
-.sb .lg { padding: 0 22px 18px; font-weight: 800; font-size: 18px; letter-spacing: -0.02em; }
+.sb .lg { padding: 0 22px 6px; font-weight: 800; font-size: 18px; }
 .sb .lg span { color: #FFD400; }
+.sb .mode { padding: 0 22px 16px; font-size: 11px; color: rgba(255,255,255,.45); }
 .sb nav a { display: flex; align-items: center; justify-content: space-between; padding: 11px 22px; font-size: 14px; color: rgba(255,255,255,.72); }
 .sb nav a:hover { background: rgba(255,255,255,.06); color: #fff; }
 .sb nav a.on { background: var(--brand); color: #fff; font-weight: 700; }
 .sb nav a .cnt { background: #FFD400; color: #04052A; font-size: 11px; font-weight: 700; border-radius: 999px; padding: 1px 7px; }
-.sb nav a.soon { opacity: .38; pointer-events: none; }
+.sb nav a.dis { opacity: .38; pointer-events: none; }
 .sb .foot { position: absolute; bottom: 18px; left: 22px; right: 22px; font-size: 12px; color: rgba(255,255,255,.4); }
 .sb .foot a { color: rgba(255,255,255,.65); display: inline-block; margin-top: 6px; cursor: pointer; }
 
-.main { padding: 26px 30px 60px; min-width: 0; }
-.tbar { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+.main { padding: 26px 30px 80px; min-width: 0; }
+.tbar { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
 .tbar h1 { font-size: 21px; font-weight: 800; }
 .tbar .sp { flex: 1; }
-.tbar .btn2 { border: 1px solid var(--line); background: #fff; padding: 8px 14px; font-size: 13px; font-weight: 700; }
-.tbar .btn2:hover { border-color: var(--brand); color: var(--brand); }
+.btn2 { border: 1px solid var(--line); background: #fff; padding: 8px 14px; font-size: 13px; font-weight: 700; }
+.btn2:hover { border-color: var(--brand); color: var(--brand); }
+.btnp { background: var(--brand); color: #fff; border: 0; padding: 9px 18px; font-size: 13px; font-weight: 700; }
+.btny { background: #FFD400; color: #04052A; border: 0; padding: 9px 18px; font-size: 13px; font-weight: 700; }
+.tmsg { font-size: 13px; }
+.tmsg.ok { color: var(--ok); } .tmsg.err { color: var(--danger); }
 
-/* 카드·KPI */
+/* KPI·카드 */
 .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 22px; }
 .kpi { background: #fff; border: 1px solid var(--line); padding: 18px 20px; }
 .kpi .n { font-size: 26px; font-weight: 800; color: var(--brand); }
 .kpi .l { font-size: 13px; color: var(--muted); margin-top: 2px; }
 .card { background: #fff; border: 1px solid var(--line); padding: 20px; margin-bottom: 18px; }
 .card h3 { font-size: 15px; font-weight: 700; margin-bottom: 14px; }
+.card .hint { font-size: 12.5px; color: var(--muted); margin: -8px 0 14px; }
 
-/* 필터·검색 */
+/* 폼 공통 */
+.f-row { margin-bottom: 14px; }
+.f-row label { display: block; font-size: 12.5px; font-weight: 700; margin-bottom: 5px; color: var(--muted); }
+.f-row input, .f-row select { width: 100%; border: 1px solid var(--line); padding: 9px 11px; font-size: 14px; }
+.f-row textarea { width: 100%; border: 1px solid var(--line); padding: 9px 11px; font-size: 14px; min-height: 64px; resize: vertical; }
+.f-grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 16px; }
+.f-grid3 { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 0 16px; }
+
+/* 필터·테이블 (신청·문의) */
 .fbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 14px; }
 .fbar .chip { border: 1px solid var(--line); background: #fff; padding: 7px 13px; font-size: 13px; }
 .fbar .chip.on { background: var(--brand); color: #fff; border-color: var(--brand); font-weight: 700; }
 .fbar input[type=search] { border: 1px solid var(--line); padding: 8px 12px; font-size: 13px; width: 220px; }
 .fbar .sp { flex: 1; }
-
-/* 테이블 */
 .tblw { background: #fff; border: 1px solid var(--line); overflow-x: auto; }
 table.lst { width: 100%; border-collapse: collapse; font-size: 13.5px; }
 .lst th { text-align: left; background: var(--bg2); padding: 10px 12px; font-size: 12px; color: var(--muted); border-bottom: 1px solid var(--line); white-space: nowrap; }
@@ -83,6 +95,17 @@ table.lst { width: 100%; border-collapse: collapse; font-size: 13.5px; }
 .st.s완료 { background: #D9F2E4; color: var(--ok); }
 .empty { padding: 46px; text-align: center; color: var(--muted); font-size: 14px; }
 
+/* 리스트 편집 (프로젝트 카드·FAQ·표행·사진) */
+.ed-item { border: 1px solid var(--line); padding: 14px; margin-bottom: 10px; background: #FCFCFE; }
+.ed-item .top { display: flex; gap: 8px; align-items: center; margin-bottom: 10px; }
+.ed-item .top .ttl { font-size: 13px; font-weight: 700; flex: 1; color: var(--brand); }
+.ed-item .mini { border: 1px solid var(--line); background: #fff; font-size: 12px; padding: 4px 9px; }
+.ed-item .mini.del { color: var(--danger); }
+.thumb-pick { display: flex; gap: 10px; align-items: center; }
+.thumb-pick img { width: 74px; height: 50px; object-fit: cover; border: 1px solid var(--line); background: #eee; }
+.add-btn { border: 1px dashed #bbb; background: none; width: 100%; padding: 11px; font-size: 13px; color: var(--muted); }
+.add-btn:hover { border-color: var(--brand); color: var(--brand); }
+
 /* 상세 드로어 */
 .drawer-bg { position: fixed; inset: 0; background: rgba(4,5,42,.45); display: none; z-index: 50; }
 .drawer-bg.on { display: block; }
@@ -95,24 +118,20 @@ table.lst { width: 100%; border-collapse: collapse; font-size: 13.5px; }
 .dsec { margin-bottom: 22px; }
 .dsec h4 { font-size: 13px; font-weight: 700; color: var(--brand); border-bottom: 2px solid var(--brand); padding-bottom: 7px; margin-bottom: 10px; }
 .dgrid { display: grid; grid-template-columns: 130px 1fr; row-gap: 7px; font-size: 14px; }
-.dgrid .k { color: var(--muted); font-size: 13px; padding-top: 1px; }
+.dgrid .k { color: var(--muted); font-size: 13px; }
 .dgrid .v { word-break: break-all; white-space: pre-wrap; }
 .dgrid .v a { color: var(--brand); text-decoration: underline; }
 .drow { display: flex; gap: 10px; align-items: center; margin-bottom: 12px; }
 .drow select { border: 1px solid var(--line); padding: 9px 12px; }
 .drawer textarea { width: 100%; border: 1px solid var(--line); padding: 10px 12px; min-height: 90px; }
-.drawer .save { background: var(--brand); color: #fff; border: 0; padding: 11px 22px; font-weight: 700; }
-.drawer .dmsg { font-size: 13px; margin-left: 10px; }
-.drawer .dmsg.ok { color: var(--ok); }
-.drawer .dmsg.err { color: var(--danger); }
+.save { background: var(--brand); color: #fff; border: 0; padding: 11px 22px; font-weight: 700; }
+.dmsg { font-size: 13px; margin-left: 10px; }
+.dmsg.ok { color: var(--ok); } .dmsg.err { color: var(--danger); }
 
-/* 설정 */
-.set-form label { display: block; font-size: 13px; font-weight: 700; margin: 16px 0 6px; }
-.set-form input { width: min(360px, 100%); border: 1px solid var(--line); padding: 10px 12px; }
-.set-form button { margin-top: 18px; background: var(--brand); color: #fff; border: 0; padding: 11px 22px; font-weight: 700; }
+/* 게시 로그 */
+#pub-log { white-space: pre-wrap; font-family: Consolas, monospace; font-size: 12px; background: #0B0D3A; color: #9fd6a9; padding: 14px; display: none; max-height: 260px; overflow: auto; }
 
-/* 미설정 안내 */
-.nocfg { max-width: 620px; margin: 80px auto; background: #fff; border: 1px solid var(--line); padding: 40px; line-height: 1.8; }
+.nocfg { max-width: 640px; margin: 80px auto; background: #fff; border: 1px solid var(--line); padding: 40px; line-height: 1.8; }
 .nocfg h2 { font-size: 19px; margin-bottom: 12px; }
 .nocfg code { background: var(--bg2); padding: 2px 7px; font-size: 13px; }
 
@@ -124,14 +143,14 @@ table.lst { width: 100%; border-collapse: collapse; font-size: 13.5px; }
 @media (max-width: 900px) {
   .shell.on { grid-template-columns: 1fr; }
   .sb { position: static; height: auto; }
-  .kpis { grid-template-columns: repeat(2, 1fr); }
+  .kpis, .f-grid2, .f-grid3 { grid-template-columns: 1fr; }
 }
 </style>
 </head>
 <body>
 
-<!-- 로그인 -->
-<div class="login-wrap" id="login">
+<!-- 로그인 (원격 모드 전용) -->
+<div class="login-wrap" id="login" hidden>
   <div class="login-box">
     <div class="lg">KFESTA <span style="color:#FFD400">관리자</span></div>
     <div class="sub">등록된 관리자 계정으로 로그인하세요.</div>
@@ -148,18 +167,19 @@ table.lst { width: 100%; border-collapse: collapse; font-size: 13.5px; }
 <div class="shell" id="shell">
   <aside class="sb">
     <div class="lg">K<span>FESTA</span> 관리자</div>
+    <div class="mode" id="mode-label"></div>
     <nav id="nav">
       <a href="#dash" data-tab="dash">대시보드</a>
-      <a href="#apps" data-tab="apps">참가신청 <span class="cnt" id="cnt-apps" hidden>0</span></a>
-      <a href="#inq" data-tab="inq">문의함 <span class="cnt" id="cnt-inq" hidden>0</span></a>
-      <a class="soon">프로젝트</a>
-      <a class="soon">카피</a>
-      <a class="soon">SEO</a>
+      <a href="#apps" data-tab="apps" id="nav-apps">참가신청 <span class="cnt" id="cnt-apps" hidden>0</span></a>
+      <a href="#inq" data-tab="inq" id="nav-inq">문의함 <span class="cnt" id="cnt-inq" hidden>0</span></a>
+      <a href="#prj" data-tab="prj" id="nav-prj">프로젝트</a>
+      <a href="#copy" data-tab="copy" id="nav-copy">카피</a>
+      <a href="#seo" data-tab="seo" id="nav-seo">SEO</a>
       <a href="#set" data-tab="set">설정</a>
     </nav>
     <div class="foot">
       <span id="who"></span><br>
-      <a id="logout">로그아웃</a>
+      <a id="logout" hidden>로그아웃</a>
     </div>
   </aside>
 
@@ -173,6 +193,7 @@ table.lst { width: 100%; border-collapse: collapse; font-size: 13.5px; }
         <div class="kpi"><div class="n" id="k-inq">–</div><div class="l">문의 (전체)</div></div>
         <div class="kpi"><div class="n" id="k-inq-new">–</div><div class="l">문의 (신규)</div></div>
       </div>
+      <div class="card" id="dash-note"></div>
       <div class="card">
         <h3>최근 7일 참가신청</h3>
         <div class="mini-bars" id="chart7" style="margin:26px 4px 24px"></div>
@@ -182,67 +203,122 @@ table.lst { width: 100%; border-collapse: collapse; font-size: 13.5px; }
     <!-- 참가신청 -->
     <section id="tab-apps" hidden>
       <div class="tbar"><h1>참가신청</h1><div class="sp"></div><button class="btn2" id="apps-csv">CSV 내보내기</button></div>
-      <div class="fbar" id="apps-fbar">
-        <button class="chip on" data-st="">전체</button>
-        <button class="chip" data-st="신규">신규</button>
-        <button class="chip" data-st="미팅예정">미팅예정</button>
-        <button class="chip" data-st="사전마케팅">사전마케팅</button>
-        <button class="chip" data-st="선정">선정</button>
-        <button class="chip" data-st="보류">보류</button>
-        <div class="sp"></div>
-        <input type="search" id="apps-q" placeholder="기업명·담당자·품목 검색">
-      </div>
-      <div class="tblw">
-        <table class="lst">
-          <thead><tr><th>접수일</th><th>기업명</th><th>담당자</th><th>품목</th><th>제품</th><th>수출경험</th><th>상태</th></tr></thead>
-          <tbody id="apps-rows"></tbody>
-        </table>
-        <div class="empty" id="apps-empty" hidden>신청 내역이 없습니다.</div>
+      <div class="card" id="apps-off" hidden></div>
+      <div id="apps-ui">
+        <div class="fbar" id="apps-fbar">
+          <button class="chip on" data-st="">전체</button>
+          <button class="chip" data-st="신규">신규</button>
+          <button class="chip" data-st="미팅예정">미팅예정</button>
+          <button class="chip" data-st="사전마케팅">사전마케팅</button>
+          <button class="chip" data-st="선정">선정</button>
+          <button class="chip" data-st="보류">보류</button>
+          <div class="sp"></div>
+          <input type="search" id="apps-q" placeholder="기업명·담당자·품목 검색">
+        </div>
+        <div class="tblw">
+          <table class="lst">
+            <thead><tr><th>접수일</th><th>기업명</th><th>담당자</th><th>품목</th><th>제품</th><th>수출경험</th><th>상태</th></tr></thead>
+            <tbody id="apps-rows"></tbody>
+          </table>
+          <div class="empty" id="apps-empty" hidden>신청 내역이 없습니다.</div>
+        </div>
       </div>
     </section>
 
     <!-- 문의함 -->
     <section id="tab-inq" hidden>
       <div class="tbar"><h1>문의함</h1><div class="sp"></div><button class="btn2" id="inq-csv">CSV 내보내기</button></div>
-      <div class="fbar" id="inq-fbar">
-        <button class="chip on" data-st="">전체</button>
-        <button class="chip" data-st="신규">신규</button>
-        <button class="chip" data-st="처리중">처리중</button>
-        <button class="chip" data-st="완료">완료</button>
-        <div class="sp"></div>
-        <input type="search" id="inq-q" placeholder="이름·기업명 검색">
+      <div class="card" id="inq-off" hidden></div>
+      <div id="inq-ui">
+        <div class="fbar" id="inq-fbar">
+          <button class="chip on" data-st="">전체</button>
+          <button class="chip" data-st="신규">신규</button>
+          <button class="chip" data-st="처리중">처리중</button>
+          <button class="chip" data-st="완료">완료</button>
+          <div class="sp"></div>
+          <input type="search" id="inq-q" placeholder="이름·기업명 검색">
+        </div>
+        <div class="tblw">
+          <table class="lst">
+            <thead><tr><th>접수일</th><th>이름</th><th>기업명</th><th>연락처</th><th>분야</th><th>상태</th></tr></thead>
+            <tbody id="inq-rows"></tbody>
+          </table>
+          <div class="empty" id="inq-empty" hidden>문의 내역이 없습니다.</div>
+        </div>
       </div>
-      <div class="tblw">
-        <table class="lst">
-          <thead><tr><th>접수일</th><th>이름</th><th>기업명</th><th>연락처</th><th>분야</th><th>상태</th></tr></thead>
-          <tbody id="inq-rows"></tbody>
-        </table>
-        <div class="empty" id="inq-empty" hidden>문의 내역이 없습니다.</div>
+    </section>
+
+    <!-- 프로젝트 -->
+    <section id="tab-prj" hidden>
+      <div class="tbar"><h1>프로젝트</h1><div class="sp"></div>
+        <button class="btnp" id="prj-save">저장</button><button class="btny" id="pub2">게시(굽기)</button><span class="tmsg" id="prj-msg"></span>
       </div>
+      <div class="card">
+        <h3>허브 카드 (프로젝트 목록 순서대로)</h3>
+        <div class="hint">순서 이동은 ↑↓, 썸네일은 파일 선택 시 자동 업로드됩니다.</div>
+        <div id="cards-list"></div>
+        <button class="add-btn" id="card-add">+ 카드 추가</button>
+      </div>
+      <div class="card">
+        <h3>상세 페이지 (템플릿형: 개요 표 + 현장 사진)</h3>
+        <div class="hint">연도형 페이지를 수정하거나 새로 만듭니다. 치맥페·대구메이드·2026 모집 페이지는 별도 제작 페이지라 여기에 없습니다.</div>
+        <div class="f-row"><label>페이지 선택</label>
+          <div style="display:flex;gap:8px">
+            <select id="pg-sel" style="flex:1;border:1px solid var(--line);padding:9px 11px"></select>
+            <button class="btn2" id="pg-new">+ 새 페이지</button>
+          </div>
+        </div>
+        <div id="pg-form"></div>
+      </div>
+    </section>
+
+    <!-- 카피 -->
+    <section id="tab-copy" hidden>
+      <div class="tbar"><h1>카피</h1><div class="sp"></div>
+        <button class="btnp" id="copy-save">저장</button><button class="btny" id="pub3">게시(굽기)</button><span class="tmsg" id="copy-msg"></span>
+      </div>
+      <div id="copy-groups"></div>
+      <div class="card">
+        <h3>홈 FAQ (화면·검색 스키마 동시 반영)</h3>
+        <div id="faq-list"></div>
+        <button class="add-btn" id="faq-add">+ 문항 추가</button>
+      </div>
+    </section>
+
+    <!-- SEO -->
+    <section id="tab-seo" hidden>
+      <div class="tbar"><h1>SEO</h1><div class="sp"></div>
+        <button class="btnp" id="seo-save">저장</button><button class="btny" id="pub4">게시(굽기)</button><span class="tmsg" id="seo-msg"></span>
+      </div>
+      <div id="seo-list"></div>
     </section>
 
     <!-- 설정 -->
     <section id="tab-set" hidden>
-      <div class="tbar"><h1>설정</h1></div>
-      <div class="card set-form">
-        <h3>알림</h3>
-        <label for="s-mail">신규 신청·문의 알림 수신 이메일</label>
-        <input type="email" id="s-mail">
+      <div class="tbar"><h1>설정</h1><div class="sp"></div>
+        <button class="btnp" id="set-save">저장</button><button class="btny" id="pub5">게시(굽기)</button><span class="tmsg" id="set-msg"></span>
       </div>
-      <div class="card set-form">
-        <h3>모집 기간 (홈·상세 밴드의 D-day가 이 값을 사용)</h3>
-        <label for="s-open">접수 시작일</label>
-        <input type="date" id="s-open">
-        <label for="s-close">접수 마감일</label>
-        <input type="date" id="s-close">
-        <button id="s-save">저장</button>
-        <span class="dmsg" id="s-msg"></span>
+      <div class="card">
+        <h3>모집 기간 (홈·상세 밴드 D-day)</h3>
+        <div class="f-grid2">
+          <div class="f-row"><label>접수 시작일</label><input type="date" id="s-open"></div>
+          <div class="f-row"><label>접수 마감일</label><input type="date" id="s-close"></div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>알림 메일 (백엔드 연결 후 동작)</h3>
+        <div class="f-row"><label>신규 신청·문의 수신 이메일</label><input type="email" id="s-mail"></div>
+      </div>
+      <div class="card">
+        <h3>게시 로그</h3>
+        <div id="pub-log"></div>
+        <div class="hint" style="margin-top:8px">게시(굽기)는 수정 내용을 실제 페이지 HTML에 반영합니다. 배포는 git push로 이루어집니다.</div>
       </div>
     </section>
   </main>
 </div>
 
-<!-- 상세 드로어 -->
+<!-- 상세 드로어 (신청·문의) -->
 <div class="drawer-bg" id="drawer-bg"></div>
 <aside class="drawer" id="drawer">
   <div class="dh"><h2 id="d-title"></h2><button class="x" id="d-close">×</button></div>

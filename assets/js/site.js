@@ -73,8 +73,8 @@
   // 수출상담회 접수 D-데이 칩 (접수 2026.8.17 ~ 9.20 KST)
   document.querySelectorAll('.rb-dday').forEach(function (el) {
     var now = new Date();
-    var open = new Date(2026, 7, 17);   // 8/17 00:00
-    var close = new Date(2026, 8, 21);  // 9/20 마감 = 21일 0시 전까지
+    var open = new Date(2026, 7, 17);   // 접수 시작 (관리자 설정)
+    var close = new Date(2026, 8, 21);  // 마감 익일 0시 (관리자 설정)
     var day = 86400000;
     if (now < open) {
       var d = Math.ceil((open - now) / day);
